@@ -1,20 +1,12 @@
 # ClaudeKit - Agent Skills
 
-[**Agent Skills**](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview.md) are specialized workflows that empower Claude to perform complex, multi-step tasks with precision and reliability. They combine mission briefs, guardrails, and integration hints to transform generic AI assistance into disciplined automation.
+[**Agent Skills**](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) are specialized workflows that empower Claude to perform complex, multi-step tasks with precision and reliability. They combine mission briefs, guardrails, and integration hints to transform generic AI assistance into disciplined automation.
 
 > Skills leverage Claude's VM environment to provide capabilities beyond what's possible with prompts alone. Claude operates in a virtual machine with filesystem access, allowing Skills to exist as directories containing instructions, executable code, and reference materials, organized like an onboarding guide you'd create for a new team member.
 > 
 > This filesystem-based architecture enables **progressive disclosure**: Claude loads information in stages as needed, rather than consuming context upfront.
 
-Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview.md
-
-## Claude Code at a glance
-Recent updates make Claude Code an ideal companion for these skills:
-- **Parallel web sessions**: Launch multiple coding tasks from the browser, steer them mid-flight, and let Claude open pull requests when it finishes.
-- **Security-first sandboxing**: Grant scoped filesystem and network access so Claude can fetch dependencies or run tests without exposing the rest of your infrastructure.
-- **On-the-go iteration**: Use the iOS preview to nudge a session while you are away from your laptop.
-
-(See Anthropic’s [Claude Code on the web](https://www.anthropic.com/news/claude-code-on-the-web) announcement and Ars Technica’s coverage of the new sandbox runtime for deeper context.)
+Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview
 
 ## Skills catalog
 
