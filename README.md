@@ -8,7 +8,7 @@
 
 Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview
 
-## Skills just got refactored!
+## ✨ Skills just got refactored!
 
 📖 Read more here: [REFACTOR.md](REFACTOR.md)
 
