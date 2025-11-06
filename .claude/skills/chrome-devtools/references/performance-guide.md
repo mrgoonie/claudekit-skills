@@ -1,6 +1,6 @@
 # Performance Analysis Guide
 
-Comprehensive guide to analyzing web performance using Chrome DevTools Protocol, Puppeteer, and chrome-devtools-mcp tools.
+Comprehensive guide to analyzing web performance using Chrome DevTools Protocol, Puppeteer, and chrome-devtools skill.
 
 ## Table of Contents
 

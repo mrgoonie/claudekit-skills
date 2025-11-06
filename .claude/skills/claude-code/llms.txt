@@ -1,221 +1,135 @@
-- [Get API Key](https://docs.claude.com/en/api/admin-api/apikeys/get-api-key.md)
-- [List API Keys](https://docs.claude.com/en/api/admin-api/apikeys/list-api-keys.md)
-- [Update API Keys](https://docs.claude.com/en/api/admin-api/apikeys/update-api-key.md)
-- [Get Claude Code Usage Report](https://docs.claude.com/en/api/admin-api/claude-code/get-claude-code-usage-report.md): Retrieve daily aggregated usage metrics for Claude Code users.
-Enables organizations to analyze developer productivity and build custom dashboards.
-- [Create Invite](https://docs.claude.com/en/api/admin-api/invites/create-invite.md)
-- [Delete Invite](https://docs.claude.com/en/api/admin-api/invites/delete-invite.md)
-- [Get Invite](https://docs.claude.com/en/api/admin-api/invites/get-invite.md)
-- [List Invites](https://docs.claude.com/en/api/admin-api/invites/list-invites.md)
-- [Get Organization Info](https://docs.claude.com/en/api/admin-api/organization/get-me.md)
-- [Get Cost Report](https://docs.claude.com/en/api/admin-api/usage-cost/get-cost-report.md)
-- [Get Usage Report for the Messages API](https://docs.claude.com/en/api/admin-api/usage-cost/get-messages-usage-report.md)
-- [Get User](https://docs.claude.com/en/api/admin-api/users/get-user.md)
-- [List Users](https://docs.claude.com/en/api/admin-api/users/list-users.md)
-- [Remove User](https://docs.claude.com/en/api/admin-api/users/remove-user.md)
-- [Update User](https://docs.claude.com/en/api/admin-api/users/update-user.md)
-- [Add Workspace Member](https://docs.claude.com/en/api/admin-api/workspace_members/create-workspace-member.md)
-- [Delete Workspace Member](https://docs.claude.com/en/api/admin-api/workspace_members/delete-workspace-member.md)
-- [Get Workspace Member](https://docs.claude.com/en/api/admin-api/workspace_members/get-workspace-member.md)
-- [List Workspace Members](https://docs.claude.com/en/api/admin-api/workspace_members/list-workspace-members.md)
-- [Update Workspace Member](https://docs.claude.com/en/api/admin-api/workspace_members/update-workspace-member.md)
-- [Archive Workspace](https://docs.claude.com/en/api/admin-api/workspaces/archive-workspace.md)
-- [Create Workspace](https://docs.claude.com/en/api/admin-api/workspaces/create-workspace.md)
-- [Get Workspace](https://docs.claude.com/en/api/admin-api/workspaces/get-workspace.md)
-- [List Workspaces](https://docs.claude.com/en/api/admin-api/workspaces/list-workspaces.md)
-- [Update Workspace](https://docs.claude.com/en/api/admin-api/workspaces/update-workspace.md)
-- [Admin API overview](https://docs.claude.com/en/api/administration-api.md)
-- [Tracking Costs and Usage](https://docs.claude.com/en/api/agent-sdk/cost-tracking.md): Understand and track token usage for billing in the Claude Agent SDK
-- [Custom Tools](https://docs.claude.com/en/api/agent-sdk/custom-tools.md): Build and integrate custom tools to extend Claude Agent SDK functionality
-- [Hosting the Agent SDK](https://docs.claude.com/en/api/agent-sdk/hosting.md): Deploy and host Claude Agent SDK in production environments
-- [MCP in the SDK](https://docs.claude.com/en/api/agent-sdk/mcp.md): Extend Claude Code with custom tools using Model Context Protocol servers
-- [Modifying system prompts](https://docs.claude.com/en/api/agent-sdk/modifying-system-prompts.md): Learn how to customize Claude's behavior by modifying system prompts using three approaches - output styles, systemPrompt with append, and custom system prompts.
-- [Agent SDK overview](https://docs.claude.com/en/api/agent-sdk/overview.md): Build custom AI agents with the Claude Agent SDK
-- [Handling Permissions](https://docs.claude.com/en/api/agent-sdk/permissions.md): Control tool usage and permissions in the Claude Agent SDK
-- [Agent SDK reference - Python](https://docs.claude.com/en/api/agent-sdk/python.md): Complete API reference for the Python Agent SDK, including all functions, types, and classes.
-- [Session Management](https://docs.claude.com/en/api/agent-sdk/sessions.md): Understanding how the Claude Agent SDK handles sessions and session resumption
-- [Slash Commands in the SDK](https://docs.claude.com/en/api/agent-sdk/slash-commands.md): Learn how to use slash commands to control Claude Code sessions through the SDK
-- [Streaming Input](https://docs.claude.com/en/api/agent-sdk/streaming-vs-single-mode.md): Understanding the two input modes for Claude Agent SDK and when to use each
-- [Subagents in the SDK](https://docs.claude.com/en/api/agent-sdk/subagents.md): Working with subagents in the Claude Agent SDK
-- [Todo Lists](https://docs.claude.com/en/api/agent-sdk/todo-tracking.md): Track and display todos using the Claude Agent SDK for organized task management
-- [Agent SDK reference - TypeScript](https://docs.claude.com/en/api/agent-sdk/typescript.md): Complete API reference for the TypeScript Agent SDK, including all functions, types, and interfaces.
-- [Beta headers](https://docs.claude.com/en/api/beta-headers.md): Documentation for using beta headers with the Claude API
-- [Cancel a Message Batch](https://docs.claude.com/en/api/canceling-message-batches.md): Batches may be canceled any time before processing ends. Once cancellation is initiated, the batch enters a `canceling` state, at which time the system may complete any in-progress, non-interruptible requests before finalizing cancellation.
+# Claude Code Documentation
 
-The number of canceled requests is specified in `request_counts`. To determine which requests were canceled, check the individual results within the batch. Note that cancellation may not result in any canceled requests if they were non-interruptible.
+## Overview
+Claude Code expert skill providing comprehensive guidance on features, setup, configuration, and troubleshooting.
 
-Learn more about the Message Batches API in our [user guide](/en/docs/build-with-claude/batch-processing)
-- [Claude Code Analytics API](https://docs.claude.com/en/api/claude-code-analytics-api.md): Programmatically access your organization's Claude Code usage analytics and productivity metrics with the Claude Code Analytics Admin API.
-- [Amazon Bedrock API](https://docs.claude.com/en/api/claude-on-amazon-bedrock.md): Anthropic's Claude models are now generally available through Amazon Bedrock.
-- [Vertex AI API](https://docs.claude.com/en/api/claude-on-vertex-ai.md): Anthropic's Claude models are now generally available through [Vertex AI](https://cloud.google.com/vertex-ai).
-- [Client SDKs](https://docs.claude.com/en/api/client-sdks.md): We provide client libraries in a number of popular languages that make it easier to work with the Claude API.
-- [Create a Message Batch](https://docs.claude.com/en/api/creating-message-batches.md): Send a batch of Message creation requests.
+## Core Topics
 
-The Message Batches API can be used to process multiple Messages API requests at once. Once a Message Batch is created, it begins processing immediately. Batches can take up to 24 hours to complete.
+### Getting Started
+- Installation methods (npm, pip)
+- Authentication and API keys
+- First run and basic usage
+- See: references/getting-started.md
 
-Learn more about the Message Batches API in our [user guide](/en/docs/build-with-claude/batch-processing)
-- [Delete a Message Batch](https://docs.claude.com/en/api/deleting-message-batches.md): Delete a Message Batch.
+### Slash Commands
+- Development commands (/cook, /plan, /debug, /test)
+- Fix commands (/fix:fast, /fix:hard, /fix:types, /fix:test, /fix:ui, /fix:ci)
+- Documentation commands (/docs:init, /docs:update, /docs:summarize)
+- Git commands (/git:cm, /git:cp, /git:pr)
+- Design and content commands
+- See: references/slash-commands.md
 
-Message Batches can only be deleted once they've finished processing. If you'd like to delete an in-progress batch, you must first cancel it.
+### Agent Skills
+- Creating and managing skills
+- skill.md and skill.json structure
+- Resource types (scripts, references, assets)
+- API usage
+- See: references/agent-skills.md
 
-Learn more about the Message Batches API in our [user guide](/en/docs/build-with-claude/batch-processing)
-- [Errors](https://docs.claude.com/en/api/errors.md)
-- [Download a File](https://docs.claude.com/en/api/files-content.md): Download the contents of a Claude generated file
-- [Create a File](https://docs.claude.com/en/api/files-create.md): Upload a file
-- [Delete a File](https://docs.claude.com/en/api/files-delete.md): Make a file inaccessible through the API
-- [List Files](https://docs.claude.com/en/api/files-list.md): List files within a workspace
-- [Get File Metadata](https://docs.claude.com/en/api/files-metadata.md)
-- [Getting help](https://docs.claude.com/en/api/getting-help.md): We've tried to provide the answers to the most common questions in these docs. However, if you need further technical support using Claude, the Claude API, or any of our products, you may reach our support team at [support.claude.com](https://support.claude.com).
-- [Handling stop reasons](https://docs.claude.com/en/api/handling-stop-reasons.md)
-- [IP addresses](https://docs.claude.com/en/api/ip-addresses.md): Anthropic services use fixed IP addresses for both inbound and outbound connections. You can use these addresses to configure your firewall rules for secure access to the Claude API and Console. These addresses will not change without notice.
-- [List Message Batches](https://docs.claude.com/en/api/listing-message-batches.md): List all Message Batches within a Workspace. Most recently created batches are returned first.
+### MCP Integration
+- MCP server configuration
+- Common servers (filesystem, GitHub, PostgreSQL, Brave Search, Puppeteer)
+- Remote MCP servers
+- Environment variables and security
+- See: references/mcp-integration.md
 
-Learn more about the Message Batches API in our [user guide](/en/docs/build-with-claude/batch-processing)
-- [Messages](https://docs.claude.com/en/api/messages.md): Send a structured list of input messages with text and/or image content, and the model will generate the next message in the conversation.
+### Hooks and Plugins
+- Hook types (pre-tool, post-tool, user-prompt-submit)
+- Hook configuration and examples
+- Plugin structure and management
+- Creating and publishing plugins
+- See: references/hooks-and-plugins.md
 
-The Messages API can be used for either single queries or stateless multi-turn conversations.
+### Configuration
+- Settings hierarchy (CLI flags, env vars, project, global)
+- Model configuration and aliases
+- Token and temperature settings
+- Sandboxing and memory management
+- Output styles
+- See: references/configuration.md
 
-Learn more about the Messages API in our [user guide](/en/docs/initial-setup)
-- [Message Batches examples](https://docs.claude.com/en/api/messages-batch-examples.md): Example usage for the Message Batches API
-- [Count Message tokens](https://docs.claude.com/en/api/messages-count-tokens.md): Count the number of tokens in a Message.
+### Enterprise Features
+- Identity & Access Management (SSO, RBAC)
+- Security & Compliance (sandboxing, audit logging, certifications)
+- Deployment options (Bedrock, Vertex AI, self-hosted)
+- Monitoring & Analytics
+- Network configuration
+- See: references/enterprise-features.md
 
-The Token Count API can be used to count the number of tokens in a Message, including tools, images, and documents, without creating it.
+### IDE Integration
+- Visual Studio Code extension
+- JetBrains plugin
+- Features, configuration, keyboard shortcuts
+- See: references/ide-integration.md
 
-Learn more about token counting in our [user guide](/en/docs/build-with-claude/token-counting)
-- [Messages examples](https://docs.claude.com/en/api/messages-examples.md): Request and response examples for the Messages API
-- [Migrating from Text Completions](https://docs.claude.com/en/api/migrating-from-text-completions-to-messages.md): Migrating from Text Completions to Messages
-- [Get a Model](https://docs.claude.com/en/api/models.md): Get a specific model.
+### CI/CD Integration
+- GitHub Actions workflows
+- GitLab CI/CD pipelines
+- Automated testing and code review
+- See: references/cicd-integration.md
 
-The Models API response can be used to determine information about a specific model or resolve a model alias to a model ID.
-- [List Models](https://docs.claude.com/en/api/models-list.md): List available models.
+### Advanced Features
+- Extended thinking
+- Prompt caching
+- Checkpointing
+- Memory management
+- Context windows
+- See: references/advanced-features.md
 
-The Models API response can be used to determine which models are available for use in the API. More recently released models are listed first.
-- [OpenAI SDK compatibility](https://docs.claude.com/en/api/openai-sdk.md): Anthropic provides a compatibility layer that enables you to use the OpenAI SDK to test the Claude API. With a few code changes, you can quickly evaluate Anthropic model capabilities.
-- [Overview](https://docs.claude.com/en/api/overview.md)
-- [Generate a prompt](https://docs.claude.com/en/api/prompt-tools-generate.md): Generate a well-written prompt
-- [Improve a prompt](https://docs.claude.com/en/api/prompt-tools-improve.md): Create a new-and-improved prompt guided by feedback
-- [Templatize a prompt](https://docs.claude.com/en/api/prompt-tools-templatize.md): Templatize a prompt by indentifying and extracting variables
-- [Rate limits](https://docs.claude.com/en/api/rate-limits.md): To mitigate misuse and manage capacity on our API, we have implemented limits on how much an organization can use the Claude API.
-- [Retrieve Message Batch Results](https://docs.claude.com/en/api/retrieving-message-batch-results.md): Streams the results of a Message Batch as a `.jsonl` file.
+### Troubleshooting
+- Authentication issues
+- Installation problems
+- Connection & network issues
+- MCP server problems
+- Performance issues
+- Tool execution errors
+- Debug mode
+- See: references/troubleshooting.md
 
-Each line in the file is a JSON object containing the result of a single request in the Message Batch. Results are not guaranteed to be in the same order as requests. Use the `custom_id` field to match results to requests.
+### API Reference
+- Admin API (usage reports, cost reports, user management)
+- Messages API (create, stream, count tokens)
+- Files API (upload, list, download, delete)
+- Models API (list, get)
+- Skills API (create, list, update, delete)
+- Client SDKs (TypeScript, Python)
+- See: references/api-reference.md
 
-Learn more about the Message Batches API in our [user guide](/en/docs/build-with-claude/batch-processing)
-- [Retrieve a Message Batch](https://docs.claude.com/en/api/retrieving-message-batches.md): This endpoint is idempotent and can be used to poll for Message Batch completion. To access the results of a Message Batch, make a request to the `results_url` field in the response.
+### Best Practices
+- Project organization
+- Security (API keys, sandboxing, hooks, plugins)
+- Performance optimization
+- Team collaboration
+- Cost management
+- Development workflows
+- See: references/best-practices.md
 
-Learn more about the Message Batches API in our [user guide](/en/docs/build-with-claude/batch-processing)
-- [Service tiers](https://docs.claude.com/en/api/service-tiers.md): Different tiers of service allow you to balance availability, performance, and predictable costs based on your application's needs.
-- [Using Agent Skills with the API](https://docs.claude.com/en/api/skills-guide.md): Learn how to use Agent Skills to extend Claude's capabilities through the API.
-- [Create Skill](https://docs.claude.com/en/api/skills/create-skill.md)
-- [Create Skill Version](https://docs.claude.com/en/api/skills/create-skill-version.md)
-- [Delete Skill](https://docs.claude.com/en/api/skills/delete-skill.md)
-- [Delete Skill Version](https://docs.claude.com/en/api/skills/delete-skill-version.md)
-- [Get Skill](https://docs.claude.com/en/api/skills/get-skill.md)
-- [Get Skill Version](https://docs.claude.com/en/api/skills/get-skill-version.md)
-- [List Skill Versions](https://docs.claude.com/en/api/skills/list-skill-versions.md)
-- [List Skills](https://docs.claude.com/en/api/skills/list-skills.md)
-- [Supported regions](https://docs.claude.com/en/api/supported-regions.md): Here are the countries, regions, and territories we can currently support access from:
-- [Usage and Cost API](https://docs.claude.com/en/api/usage-cost-api.md): Programmatically access your organization's API usage and cost data with the Usage & Cost Admin API.
-- [Versions](https://docs.claude.com/en/api/versioning.md): When making API requests, you must send an `anthropic-version` request header. For example, `anthropic-version: 2023-06-01`. If you are using our [client SDKs](/en/api/client-sdks), this is handled for you automatically.
-- [Glossary](https://docs.claude.com/en/docs/about-claude/glossary.md): These concepts are not unique to Anthropic’s language models, but we present a brief summary of key terms below.
-- [Model deprecations](https://docs.claude.com/en/docs/about-claude/model-deprecations.md)
-- [Choosing the right model](https://docs.claude.com/en/docs/about-claude/models/choosing-a-model.md): Selecting the optimal Claude model for your application involves balancing three key considerations: capabilities, speed, and cost. This guide helps you make an informed decision based on your specific requirements.
-- [Migrating to Claude 4.5](https://docs.claude.com/en/docs/about-claude/models/migrating-to-claude-4.md)
-- [Models overview](https://docs.claude.com/en/docs/about-claude/models/overview.md): Claude is a family of state-of-the-art large language models developed by Anthropic. This guide introduces our models and compares their performance.
-- [What's new in Claude 4.5](https://docs.claude.com/en/docs/about-claude/models/whats-new-claude-4-5.md)
-- [Pricing](https://docs.claude.com/en/docs/about-claude/pricing.md): Learn about Anthropic's pricing structure for models and features
-- [Content moderation](https://docs.claude.com/en/docs/about-claude/use-case-guides/content-moderation.md): Content moderation is a critical aspect of maintaining a safe, respectful, and productive environment in digital applications. In this guide, we'll discuss how Claude can be used to moderate content within your digital application.
-- [Customer support agent](https://docs.claude.com/en/docs/about-claude/use-case-guides/customer-support-chat.md): This guide walks through how to leverage Claude's advanced conversational capabilities to handle customer inquiries in real time, providing 24/7 support, reducing wait times, and managing high support volumes with accurate responses and positive interactions.
-- [Legal summarization](https://docs.claude.com/en/docs/about-claude/use-case-guides/legal-summarization.md): This guide walks through how to leverage Claude's advanced natural language processing capabilities to efficiently summarize legal documents, extracting key information and expediting legal research. With Claude, you can streamline the review of contracts, litigation prep, and regulatory work, saving time and ensuring accuracy in your legal processes.
-- [Guides to common use cases](https://docs.claude.com/en/docs/about-claude/use-case-guides/overview.md)
-- [Ticket routing](https://docs.claude.com/en/docs/about-claude/use-case-guides/ticket-routing.md): This guide walks through how to harness Claude's advanced natural language understanding capabilities to classify customer support tickets at scale based on customer intent, urgency, prioritization, customer profile, and more.
-- [Skill authoring best practices](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices.md): Learn how to write effective Skills that Claude can discover and use successfully.
-- [Agent Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview.md): Agent Skills are modular capabilities that extend Claude's functionality. Each Skill packages instructions, metadata, and optional resources (scripts, templates) that Claude uses automatically when relevant.
-- [Get started with Agent Skills in the API](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/quickstart.md): Learn how to use Agent Skills to create documents with the Claude API in under 10 minutes.
-- [Google Sheets add-on](https://docs.claude.com/en/docs/agents-and-tools/claude-for-sheets.md): The [Claude for Sheets extension](https://workspace.google.com/marketplace/app/claude%5Ffor%5Fsheets/909417792257) integrates Claude into Google Sheets, allowing you to execute interactions with Claude directly in cells.
-- [MCP connector](https://docs.claude.com/en/docs/agents-and-tools/mcp-connector.md)
-- [Remote MCP servers](https://docs.claude.com/en/docs/agents-and-tools/remote-mcp-servers.md)
-- [Bash tool](https://docs.claude.com/en/docs/agents-and-tools/tool-use/bash-tool.md)
-- [Code execution tool](https://docs.claude.com/en/docs/agents-and-tools/tool-use/code-execution-tool.md)
-- [Computer use tool](https://docs.claude.com/en/docs/agents-and-tools/tool-use/computer-use-tool.md)
-- [Fine-grained tool streaming](https://docs.claude.com/en/docs/agents-and-tools/tool-use/fine-grained-tool-streaming.md)
-- [How to implement tool use](https://docs.claude.com/en/docs/agents-and-tools/tool-use/implement-tool-use.md)
-- [Memory tool](https://docs.claude.com/en/docs/agents-and-tools/tool-use/memory-tool.md)
-- [Tool use with Claude](https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview.md)
-- [Text editor tool](https://docs.claude.com/en/docs/agents-and-tools/tool-use/text-editor-tool.md)
-- [Token-efficient tool use](https://docs.claude.com/en/docs/agents-and-tools/tool-use/token-efficient-tool-use.md)
-- [Web fetch tool](https://docs.claude.com/en/docs/agents-and-tools/tool-use/web-fetch-tool.md)
-- [Web search tool](https://docs.claude.com/en/docs/agents-and-tools/tool-use/web-search-tool.md)
-- [Batch processing](https://docs.claude.com/en/docs/build-with-claude/batch-processing.md)
-- [Citations](https://docs.claude.com/en/docs/build-with-claude/citations.md)
-- [Context editing](https://docs.claude.com/en/docs/build-with-claude/context-editing.md): Automatically manage conversation context as it grows with context editing.
-- [Context windows](https://docs.claude.com/en/docs/build-with-claude/context-windows.md)
-- [Embeddings](https://docs.claude.com/en/docs/build-with-claude/embeddings.md): Text embeddings are numerical representations of text that enable measuring semantic similarity. This guide introduces embeddings, their applications, and how to use embedding models for tasks like search, recommendations, and anomaly detection.
-- [Building with extended thinking](https://docs.claude.com/en/docs/build-with-claude/extended-thinking.md)
-- [Files API](https://docs.claude.com/en/docs/build-with-claude/files.md)
-- [Multilingual support](https://docs.claude.com/en/docs/build-with-claude/multilingual-support.md): Claude excels at tasks across multiple languages, maintaining strong cross-lingual performance relative to English.
-- [Features overview](https://docs.claude.com/en/docs/build-with-claude/overview.md): Explore Claude's advanced features and capabilities.
-- [PDF support](https://docs.claude.com/en/docs/build-with-claude/pdf-support.md): Process PDFs with Claude. Extract text, analyze charts, and understand visual content from your documents.
-- [Prompt caching](https://docs.claude.com/en/docs/build-with-claude/prompt-caching.md)
-- [Be clear, direct, and detailed](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct.md)
-- [Let Claude think (chain of thought prompting) to increase performance](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought.md)
-- [Chain complex prompts for stronger performance](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/chain-prompts.md)
-- [Claude 4 prompt engineering best practices](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/claude-4-best-practices.md)
-- [Extended thinking tips](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips.md)
-- [Long context prompting tips](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/long-context-tips.md)
-- [Use examples (multishot prompting) to guide Claude's behavior](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting.md)
-- [Prompt engineering overview](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview.md)
-- [Prefill Claude's response for greater output control](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/prefill-claudes-response.md)
-- [Automatically generate first draft prompt templates](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/prompt-generator.md)
-- [Use our prompt improver to optimize your prompts](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/prompt-improver.md)
-- [Use prompt templates and variables](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/prompt-templates-and-variables.md)
-- [Giving Claude a role with a system prompt](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/system-prompts.md)
-- [Use XML tags to structure your prompts](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags.md)
-- [Search results](https://docs.claude.com/en/docs/build-with-claude/search-results.md): Enable natural citations for RAG applications by providing search results with source attribution
-- [Streaming Messages](https://docs.claude.com/en/docs/build-with-claude/streaming.md)
-- [Token counting](https://docs.claude.com/en/docs/build-with-claude/token-counting.md)
-- [Vision](https://docs.claude.com/en/docs/build-with-claude/vision.md): The Claude 3 and 4 families of models comes with new vision capabilities that allow Claude to understand and analyze images, opening up exciting possibilities for multimodal interaction.
-- [Claude Code on Amazon Bedrock](https://docs.claude.com/en/docs/claude-code/amazon-bedrock.md): Learn about configuring Claude Code through Amazon Bedrock, including setup, IAM configuration, and troubleshooting.
-- [Analytics](https://docs.claude.com/en/docs/claude-code/analytics.md): View detailed usage insights and productivity metrics for your organization's Claude Code deployment.
-- [Checkpointing](https://docs.claude.com/en/docs/claude-code/checkpointing.md): Automatically track and rewind Claude's edits to quickly recover from unwanted changes.
-- [Claude Code on the web](https://docs.claude.com/en/docs/claude-code/claude-code-on-the-web.md): Run Claude Code tasks asynchronously on secure cloud infrastructure
-- [CLI reference](https://docs.claude.com/en/docs/claude-code/cli-reference.md): Complete reference for Claude Code command-line interface, including commands and flags.
-- [Common workflows](https://docs.claude.com/en/docs/claude-code/common-workflows.md): Learn about common workflows with Claude Code.
-- [Manage costs effectively](https://docs.claude.com/en/docs/claude-code/costs.md): Learn how to track and optimize token usage and costs when using Claude Code.
-- [Data usage](https://docs.claude.com/en/docs/claude-code/data-usage.md): Learn about Anthropic's data usage policies for Claude
-- [Development containers](https://docs.claude.com/en/docs/claude-code/devcontainer.md): Learn about the Claude Code development container for teams that need consistent, secure environments.
-- [Claude Code GitHub Actions](https://docs.claude.com/en/docs/claude-code/github-actions.md): Learn about integrating Claude Code into your development workflow with Claude Code GitHub Actions
-- [Claude Code GitLab CI/CD](https://docs.claude.com/en/docs/claude-code/gitlab-ci-cd.md): Learn about integrating Claude Code into your development workflow with GitLab CI/CD
-- [Claude Code on Google Vertex AI](https://docs.claude.com/en/docs/claude-code/google-vertex-ai.md): Learn about configuring Claude Code through Google Vertex AI, including setup, IAM configuration, and troubleshooting.
-- [Headless mode](https://docs.claude.com/en/docs/claude-code/headless.md): Run Claude Code programmatically without interactive UI
-- [Hooks reference](https://docs.claude.com/en/docs/claude-code/hooks.md): This page provides reference documentation for implementing hooks in Claude Code.
-- [Get started with Claude Code hooks](https://docs.claude.com/en/docs/claude-code/hooks-guide.md): Learn how to customize and extend Claude Code's behavior by registering shell commands
-- [Identity and Access Management](https://docs.claude.com/en/docs/claude-code/iam.md): Learn how to configure user authentication, authorization, and access controls for Claude Code in your organization.
-- [Interactive mode](https://docs.claude.com/en/docs/claude-code/interactive-mode.md): Complete reference for keyboard shortcuts, input modes, and interactive features in Claude Code sessions.
-- [JetBrains IDEs](https://docs.claude.com/en/docs/claude-code/jetbrains.md): Use Claude Code with JetBrains IDEs including IntelliJ, PyCharm, WebStorm, and more
-- [Legal and compliance](https://docs.claude.com/en/docs/claude-code/legal-and-compliance.md): Legal agreements, compliance certifications, and security information for Claude Code.
-- [LLM gateway configuration](https://docs.claude.com/en/docs/claude-code/llm-gateway.md): Learn how to configure Claude Code with LLM gateway solutions, including LiteLLM setup, authentication methods, and enterprise features like usage tracking and budget management.
-- [Connect Claude Code to tools via MCP](https://docs.claude.com/en/docs/claude-code/mcp.md): Learn how to connect Claude Code to your tools with the Model Context Protocol.
-- [Manage Claude's memory](https://docs.claude.com/en/docs/claude-code/memory.md): Learn how to manage Claude Code's memory across sessions with different memory locations and best practices.
-- [Model configuration](https://docs.claude.com/en/docs/claude-code/model-config.md): Learn about the Claude Code model configuration, including model aliases like `opusplan`
-- [Monitoring](https://docs.claude.com/en/docs/claude-code/monitoring-usage.md): Learn how to enable and configure OpenTelemetry for Claude Code.
-- [Enterprise network configuration](https://docs.claude.com/en/docs/claude-code/network-config.md): Configure Claude Code for enterprise environments with proxy servers, custom Certificate Authorities (CA), and mutual Transport Layer Security (mTLS) authentication.
-- [Output styles](https://docs.claude.com/en/docs/claude-code/output-styles.md): Adapt Claude Code for uses beyond software engineering
-- [Claude Code overview](https://docs.claude.com/en/docs/claude-code/overview.md): Learn about Claude Code, Anthropic's agentic coding tool that lives in your terminal and helps you turn ideas into code faster than ever before.
-- [Plugin marketplaces](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces.md): Create and manage plugin marketplaces to distribute Claude Code extensions across teams and communities.
-- [Plugins](https://docs.claude.com/en/docs/claude-code/plugins.md): Extend Claude Code with custom commands, agents, hooks, and MCP servers through the plugin system.
-- [Plugins reference](https://docs.claude.com/en/docs/claude-code/plugins-reference.md): Complete technical reference for Claude Code plugin system, including schemas, CLI commands, and component specifications.
-- [Quickstart](https://docs.claude.com/en/docs/claude-code/quickstart.md): Welcome to Claude Code!
-- [Sandboxing](https://docs.claude.com/en/docs/claude-code/sandboxing.md): Learn how Claude Code's sandboxed bash tool provides filesystem and network isolation for safer, more autonomous agent execution.
-- [Migrate to Claude Agent SDK](https://docs.claude.com/en/docs/claude-code/sdk/migration-guide.md): Guide for migrating the Claude Code TypeScript and Python SDKs to the Claude Agent SDK
-- [Security](https://docs.claude.com/en/docs/claude-code/security.md): Learn about Claude Code's security safeguards and best practices for safe usage.
-- [Claude Code settings](https://docs.claude.com/en/docs/claude-code/settings.md): Configure Claude Code with global and project-level settings, and environment variables.
-- [Set up Claude Code](https://docs.claude.com/en/docs/claude-code/setup.md): Install, authenticate, and start using Claude Code on your development machine.
-- [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills.md): Create, manage, and share Skills to extend Claude's capabilities in Claude Code.
-- [Slash commands](https://docs.claude.com/en/docs/claude-code/slash-commands.md): Control Claude's behavior during an interactive session with slash commands.
-- [Status line configuration](https://docs.claude.com/en/docs/claude-code/statusline.md): Create a custom status line for Claude Code to display contextual information
-- [Subagents](https://docs.claude.com/en/docs/claude-code/sub-agents.md): Create and use specialized AI subagents in Claude Code for task-specific workflows and improved context management.
-- [Optimize your terminal setup](https://docs.claude.com/en/docs/claude-code/terminal-config.md): Claude Code works best when your terminal is properly configured. Follow these guidelines to optimize your experience.
-- [Enterprise deployment overview](https://docs.claude.com/en/docs/claude-code/third-party-integrations.md): Learn how Claude Code can integrate with various third-party services and infrastructure to meet enterprise deployment requirements.
-- [Troubleshooting](https://docs.claude.com/en/docs/claude-code/troubleshooting.md): Discover solutions to common issues with Claude Code installation and usage.
-- [Visual Studio Code](https://docs.claude.com/en/docs/claude-code/vs-code.md): Use Claude Code with Visual Studio Code through our native extension or CLI integration
+## Documentation Links
+
+### Official Documentation
+- Main docs: https://docs.claude.com/claude-code
+- API reference: https://docs.claude.com/api
+- Agent Skills: https://docs.claude.com/agents-and-tools/agent-skills
+- Models: https://docs.claude.com/about-claude/models
+
+### Support
+- GitHub Issues: https://github.com/anthropics/claude-code/issues
+- Support Portal: support.claude.com
+- Community Discord: discord.gg/anthropic
+
+## Reference Files
+
+All detailed documentation is available in the references/ directory:
+- references/getting-started.md
+- references/slash-commands.md
+- references/agent-skills.md
+- references/mcp-integration.md
+- references/hooks-and-plugins.md
+- references/configuration.md
+- references/enterprise-features.md
+- references/ide-integration.md
+- references/cicd-integration.md
+- references/advanced-features.md
+- references/troubleshooting.md
+- references/api-reference.md
+- references/best-practices.md

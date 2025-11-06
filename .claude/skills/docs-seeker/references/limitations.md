@@ -2,6 +2,55 @@
 
 Understanding boundaries and measuring effectiveness of documentation discovery.
 
+## context7.com Limitations
+
+### Not All Libraries Indexed
+
+**Limitation:**
+- context7.com doesn't index every repository/website
+- Very new libraries may not be available yet
+- Private repositories not accessible
+- Some niche libraries missing
+
+**Impact:**
+- Need fallback to official llms.txt or repository analysis
+- May add 10-20 seconds to discovery time
+- Requires manual search for obscure libraries
+
+**Workarounds:**
+```
+1. Try context7.com first (always)
+2. If 404, fall back to official llms.txt search
+3. If still not found, use repository analysis
+4. Note in report which method was used
+```
+
+**Example:**
+```
+Tried: https://context7.com/org/new-lib/llms.txt → 404
+Fallback: WebSearch for "new-lib llms.txt" → Found
+Used: Official llms.txt from website
+```
+
+### Topic Filtering Accuracy
+
+**Limitation:**
+- ?topic= parameter relies on keyword matching
+- May miss relevant content with different terminology
+- May include tangentially related content
+- Quality depends on context7 indexing
+
+**Impact:**
+- Occasionally need to review base llms.txt without topic filter
+- May miss some relevant documentation
+
+**Workarounds:**
+```
+- Try multiple topic keywords
+- Fall back to full llms.txt if topic search insufficient
+- Use broader terms for better coverage
+```
+
 ## Cannot Handle
 
 ### Password-Protected Documentation

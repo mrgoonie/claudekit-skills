@@ -2,8 +2,12 @@
 /**
  * Click an element
  * Usage: node click.js --selector ".button" [--url https://example.com] [--wait-for ".result"]
+ * Supports both CSS and XPath selectors:
+ *   - CSS: node click.js --selector "button.submit"
+ *   - XPath: node click.js --selector "//button[contains(text(),'Submit')]"
  */
 import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from './lib/browser.js';
+import { parseSelector, waitForElement, clickElement, enhanceError } from './lib/selector.js';
 
 async function click() {
   const args = parseArgs(process.argv.slice(2));
@@ -27,14 +31,23 @@ async function click() {
       });
     }
 
-    // Wait for element
-    await page.waitForSelector(args.selector, {
+    // Parse and validate selector
+    const parsed = parseSelector(args.selector);
+
+    // Wait for element based on selector type
+    await waitForElement(page, parsed, {
       visible: true,
       timeout: parseInt(args.timeout || '5000')
     });
 
+    // Set up navigation promise BEFORE clicking (in case click triggers immediate navigation)
+    const navigationPromise = page.waitForNavigation({
+      waitUntil: 'load',
+      timeout: 5000
+    }).catch(() => null); // Catch timeout - navigation may not occur
+
     // Click element
-    await page.click(args.selector);
+    await clickElement(page, parsed);
 
     // Wait for optional selector after click
     if (args['wait-for']) {
@@ -42,15 +55,8 @@ async function click() {
         timeout: parseInt(args.timeout || '5000')
       });
     } else {
-      // Wait for navigation or timeout
-      try {
-        await page.waitForNavigation({
-          waitUntil: 'networkidle2',
-          timeout: 2000
-        });
-      } catch (e) {
-        // Ignore timeout - no navigation occurred
-      }
+      // Wait for navigation to complete (or timeout if no navigation)
+      await navigationPromise;
     }
 
     outputJSON({
@@ -63,7 +69,10 @@ async function click() {
       await closeBrowser();
     }
   } catch (error) {
-    outputError(error);
+    // Enhance error message with troubleshooting tips
+    const enhanced = enhanceError(error, args.selector);
+    outputError(enhanced);
+    process.exit(1);
   }
 }
 

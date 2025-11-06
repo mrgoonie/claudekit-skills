@@ -1,6 +1,6 @@
 {
   "name": "claude-code",
-  "description": "Comprehensive guide for using Claude Code - features, configuration, MCP, skills, plugins, hooks, CI/CD, and enterprise deployment. Use when users need help with Claude Code setup, troubleshooting, or advanced features.",
-  "version": "1.0.0",
+  "description": "Use when users ask about Claude Code features, setup, configuration, troubleshooting, slash commands, MCP servers, Agent Skills, hooks, plugins, CI/CD integration, or enterprise deployment. Activate for questions like 'How do I use Claude Code?', 'What slash commands are available?', 'How to set up MCP?', 'Create a skill', 'Fix Claude Code issues', or 'Deploy Claude Code in enterprise'.",
+  "version": "2.0.0",
   "author": "ClaudeKit Engineer"
 }

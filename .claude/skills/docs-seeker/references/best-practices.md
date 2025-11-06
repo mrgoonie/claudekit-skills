@@ -2,46 +2,77 @@
 
 Essential principles and proven strategies for effective documentation discovery.
 
-## 1. Always Start with llms.txt
+## 1. Prioritize context7.com for llms.txt
 
 ### Why
 
-- **Most efficient**: Standardized format designed for AI consumption
-- **Authoritative**: Curated by library maintainers
-- **Comprehensive**: Contains links to all essential documentation
-- **Up-to-date**: Maintained alongside documentation
-- **Fast**: Single fetch vs multiple searches
+- **Comprehensive aggregator**: Single source for most documentation
+- **Most efficient**: Instant access without searching
+- **Authoritative**: Aggregates official sources
+- **Up-to-date**: Continuously maintained
+- **Fast**: Direct URL construction vs searching
+- **Topic filtering**: Targeted results with ?topic= parameter
 
 ### Implementation
 
 ```
-Step 1: Search for llms.txt (30 seconds max)
+Step 1: Try context7.com (ALWAYS FIRST)
+  ↓
+Know GitHub repo?
+  YES → https://context7.com/{org}/{repo}/llms.txt
+  NO → Continue
+  ↓
+Know website?
+  YES → https://context7.com/websites/{normalized-path}/llms.txt
+  NO → Continue
+  ↓
+Specific topic needed?
+  YES → Add ?topic={query} parameter
+  NO → Use base URL
   ↓
 Found?
-  YES → Use as primary source (Phase 2)
-  NO → Fall back to repository (Phase 3)
+  YES → Use as primary source
+  NO → Fall back to WebSearch for llms.txt
+  ↓
+Still not found?
+  YES → Fall back to repository analysis
 ```
 
-### Example
+### Examples
 
 ```
-Good approach:
-1. WebSearch: "Astro llms.txt site:docs.astro.build"
-2. Found → WebFetch llms.txt
+Best approach (context7.com):
+1. Direct URL: https://context7.com/vercel/next.js/llms.txt
+2. WebFetch llms.txt
 3. Launch Explorer agents for URLs
+Total time: ~15 seconds
+
+Topic-specific approach:
+1. Direct URL: https://context7.com/shadcn-ui/ui/llms.txt?topic=date
+2. WebFetch filtered content
+3. Present focused results
+Total time: ~10 seconds
+
+Good fallback approach:
+1. context7.com returns 404
+2. WebSearch: "Astro llms.txt site:docs.astro.build"
+3. Found → WebFetch llms.txt
+4. Launch Explorer agents for URLs
 Total time: ~60 seconds
 
 Poor approach:
-1. Search for various documentation pages
-2. Manually collect URLs
-3. Process one by one
+1. Skip context7.com entirely
+2. Search for various documentation pages
+3. Manually collect URLs
+4. Process one by one
 Total time: ~5 minutes
 ```
 
 ### When Not Available
 
-Don't spend excessive time searching for llms.txt:
-- If not found in 30 seconds → move to repository
+Fallback strategy when context7.com unavailable:
+- If context7.com returns 404 → try WebSearch for llms.txt
+- If WebSearch finds nothing in 30 seconds → move to repository
 - If domain is incorrect → try 2-3 alternatives, then move on
 - If documentation is very old → likely doesn't have llms.txt
 

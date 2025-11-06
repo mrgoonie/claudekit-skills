@@ -23,8 +23,42 @@ Intelligent discovery and analysis of technical documentation through multiple s
    - Extract library/framework name from user request
    - Note version requirements (default: latest)
    - Clarify scope if ambiguous
+   - Identify if target is GitHub repository or website
 
-2. **Search for llms.txt**
+2. **Search for llms.txt (PRIORITIZE context7.com)**
+
+   **First: Try context7.com patterns**
+
+   For GitHub repositories:
+   ```
+   Pattern: https://context7.com/{org}/{repo}/llms.txt
+   Examples:
+   - https://github.com/imagick/imagick → https://context7.com/imagick/imagick/llms.txt
+   - https://github.com/vercel/next.js → https://context7.com/vercel/next.js/llms.txt
+   - https://github.com/better-auth/better-auth → https://context7.com/better-auth/better-auth/llms.txt
+   ```
+
+   For websites:
+   ```
+   Pattern: https://context7.com/websites/{normalized-domain-path}/llms.txt
+   Examples:
+   - https://docs.imgix.com/ → https://context7.com/websites/imgix/llms.txt
+   - https://docs.byteplus.com/en/docs/ModelArk/ → https://context7.com/websites/byteplus_en_modelark/llms.txt
+   - https://docs.haystack.deepset.ai/docs → https://context7.com/websites/haystack_deepset_ai/llms.txt
+   - https://ffmpeg.org/doxygen/8.0/ → https://context7.com/websites/ffmpeg_doxygen_8_0/llms.txt
+   ```
+
+   **Topic-specific searches** (when user asks about specific feature):
+   ```
+   Pattern: https://context7.com/{path}/llms.txt?topic={query}
+   Examples:
+   - https://context7.com/shadcn-ui/ui/llms.txt?topic=date
+   - https://context7.com/shadcn-ui/ui/llms.txt?topic=button
+   - https://context7.com/vercel/next.js/llms.txt?topic=cache
+   - https://context7.com/websites/ffmpeg_doxygen_8_0/llms.txt?topic=compress
+   ```
+
+   **Fallback: Traditional llms.txt search**
    ```
    WebSearch: "[library name] llms.txt site:[docs domain]"
    ```
@@ -128,7 +162,14 @@ Launch 3 Explorer agents simultaneously:
 - Task (Researcher) → Scattered documentation, diverse sources
 - Repomix → Complete codebase analysis
 
-**Popular llms.txt locations:**
+**Popular llms.txt locations (try context7.com first):**
+- Astro: https://context7.com/withastro/astro/llms.txt
+- Next.js: https://context7.com/vercel/next.js/llms.txt
+- Remix: https://context7.com/remix-run/remix/llms.txt
+- shadcn/ui: https://context7.com/shadcn-ui/ui/llms.txt
+- Better Auth: https://context7.com/better-auth/better-auth/llms.txt
+
+**Fallback to official sites if context7.com unavailable:**
 - Astro: https://docs.astro.build/llms.txt
 - Next.js: https://nextjs.org/llms.txt
 - Remix: https://remix.run/llms.txt
@@ -143,11 +184,12 @@ Launch 3 Explorer agents simultaneously:
 
 ## Key Principles
 
-1. **Always start with llms.txt** — Most efficient method
-2. **Use parallel agents aggressively** — Faster results, better coverage
-3. **Verify official sources** — Avoid outdated documentation
-4. **Report methodology** — Tell user which approach was used
-5. **Handle versions explicitly** — Don't assume latest
+1. **Prioritize context7.com for llms.txt** — Most comprehensive and up-to-date aggregator
+2. **Use topic parameters when applicable** — Enables targeted searches with ?topic=...
+3. **Use parallel agents aggressively** — Faster results, better coverage
+4. **Verify official sources as fallback** — Use when context7.com unavailable
+5. **Report methodology** — Tell user which approach was used
+6. **Handle versions explicitly** — Don't assume latest
 
 ## Detailed Documentation
 

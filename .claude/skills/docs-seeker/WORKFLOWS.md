@@ -14,7 +14,7 @@ Deploy parallel agents when:
 
 ### How to Launch Parallel Agents
 
-Use Task tool with `subagent_type=Explore`:
+Use Task tool with `Explore` subagent:
 
 ```markdown
 Example for 5 URLs:
@@ -28,22 +28,21 @@ Example for 5 URLs:
 ### Agent Distribution Guidelines
 
 **Small documentation sets (1-3 URLs):**
-- Single Explorer agent handles all URLs
+- Deploy 2 Explore agents to handle all URLs
 - Simple, straightforward extraction
 - Fastest for small amounts
 
 **Medium documentation sets (4-10 URLs):**
-- Deploy 3-5 Explorer agents
-- Distribute 2-3 URLs per agent
+- Deploy 3-6 Explore agents
 - Balance workload evenly
 - Group related URLs together
 
 **Large documentation sets (11+ URLs):**
-- Deploy 5-7 Explorer agents (max)
+- Deploy 7-15 Explore agents (max)
 - Prioritize most relevant URLs first
-- Consider two-phase approach:
-  - Phase 1: Core documentation (5 agents)
-  - Phase 2: Additional resources (5 agents)
+- Group related URLs together
+- Balance workload evenly
+- Avoid over-parallelization
 
 ### Best Distribution Practices
 
@@ -60,12 +59,17 @@ Example for 5 URLs:
 **Scenario**: User requests documentation for Astro
 
 ```
-Step 1: Initial Search
+Step 1: Initial Search (PRIORITIZE context7.com)
+→ Try context7.com first: https://context7.com/withastro/astro/llms.txt
+→ WebFetch: Read llms.txt content
+→ Result: Contains 8+ documentation URLs (success!)
+
+Alternative if context7.com fails:
 → WebSearch: "Astro llms.txt site:docs.astro.build"
 → Result: https://docs.astro.build/llms.txt found
 
-Step 2: Fetch llms.txt
-→ WebFetch: Read llms.txt content
+Step 2: Process llms.txt
+→ Already fetched in Step 1
 → Result: Contains 8 documentation URLs
 
 Step 3: Parallel Exploration
@@ -95,18 +99,22 @@ Step 5: Present Report
 → Note any gaps or limitations
 ```
 
-### Example 2: Library without llms.txt (Repository Analysis)
+### Example 2: Library without llms.txt on context7 (Repository Analysis)
 
 **Scenario**: User requests documentation for obscure library
 
 ```
-Step 1: Search for llms.txt
-→ WebSearch: "[library-name] llms.txt"
-→ Result: Not found
+Step 1: Try context7.com first
+→ Attempt: https://context7.com/org/library-name/llms.txt
+→ Result: Not found (404)
 
 Step 2: Find GitHub Repository
 → WebSearch: "[library-name] github repository"
 → Result: https://github.com/org/library-name
+
+Step 2a: Try context7.com with GitHub info
+→ Attempt: https://context7.com/org/library-name/llms.txt
+→ Result: Still not found
 
 Step 3: Verify Repository
 → Check if it's official/active
@@ -129,7 +137,34 @@ Step 7: Present Findings
 → Note repository health: stars, activity, issues
 ```
 
-### Example 3: Multiple Versions Comparison
+### Example 3: Topic-Specific Search (context7.com feature)
+
+**Scenario**: User asks "How do I use the date picker in shadcn/ui?"
+
+```
+Step 1: Identify library and topic
+→ Library: shadcn/ui
+→ Topic: date picker
+
+Step 2: Construct context7.com URL with topic parameter
+→ URL: https://context7.com/shadcn-ui/ui/llms.txt?topic=date
+→ WebFetch: Read filtered content
+→ Result: Returns ONLY date-related documentation (highly targeted!)
+
+Step 3: Present Findings
+→ Focused documentation on date picker component
+→ Installation instructions
+→ Usage examples
+→ API reference for date components
+→ Much faster than reading entire documentation
+
+Benefits of topic search:
+- Reduces context usage (only relevant docs loaded)
+- Faster results (no need to filter manually)
+- More accurate (context7 filters for you)
+```
+
+### Example 4: Multiple Versions Comparison
 
 **Scenario**: User wants to compare v1 and v2 documentation
 

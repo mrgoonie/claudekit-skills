@@ -2,7 +2,69 @@
 
 Comprehensive troubleshooting and error resolution strategies for documentation discovery.
 
-## llms.txt Not Accessible
+## context7.com Not Accessible
+
+### Symptoms
+
+- 404 error (library not indexed)
+- Connection timeout
+- Server error (500)
+- Empty response
+
+### Troubleshooting Steps
+
+**1. Verify URL pattern:**
+
+For GitHub repos:
+```
+✓ Correct: https://context7.com/vercel/next.js/llms.txt
+✗ Wrong: https://context7.com/nextjs/llms.txt
+```
+
+For websites:
+```
+✓ Correct: https://context7.com/websites/imgix/llms.txt
+✗ Wrong: https://context7.com/docs.imgix.com/llms.txt
+```
+
+**2. Try official llms.txt as fallback:**
+```
+https://docs.[library].com/llms.txt
+https://[library].dev/llms.txt
+https://[library].io/llms.txt
+```
+
+**3. Search for llms.txt if still not found:**
+```
+WebSearch: "[library] llms.txt"
+WebSearch: "[library] documentation AI format"
+```
+
+**4. Fall back to repository analysis:**
+- If no llms.txt available anywhere
+- Note in report: "llms.txt not available, used repository analysis"
+
+### Common Causes
+
+- Library not yet indexed by context7.com
+- Very new or obscure library
+- Private repository
+- context7.com temporary outage
+
+### Example Resolution
+
+```
+Problem: https://context7.com/org/new-lib/llms.txt returns 404
+
+Steps:
+1. Check official site: https://new-lib.dev/llms.txt ✗ Not found
+2. WebSearch for llms.txt ✗ Not found
+3. Fall back to repository: https://github.com/org/new-lib ✓ Found
+4. Use Repomix for documentation extraction
+5. Note in report: "No llms.txt available, analyzed repository directly"
+```
+
+## llms.txt Not Accessible (Official Sites)
 
 ### Symptoms
 
@@ -13,7 +75,12 @@ Comprehensive troubleshooting and error resolution strategies for documentation 
 
 ### Troubleshooting Steps
 
-**1. Try alternative domains:**
+**1. ALWAYS try context7.com first:**
+```
+https://context7.com/{org}/{repo}/llms.txt
+```
+
+**2. Try alternative official domains:**
 ```
 https://[name].dev/llms.txt
 https://[name].io/llms.txt
@@ -22,24 +89,24 @@ https://docs.[name].com/llms.txt
 https://www.[name].com/llms.txt
 ```
 
-**2. Check for redirects:**
+**3. Check for redirects:**
 - Old domain → new domain
 - Non-HTTPS → HTTPS
 - www → non-www or vice versa
 - Root → /docs subdirectory
 
-**3. Search for llms.txt mention:**
+**4. Search for llms.txt mention:**
 ```
 WebSearch: "[library] llms.txt"
 WebSearch: "[library] documentation AI format"
 ```
 
-**4. Check documentation announcements:**
+**5. Check documentation announcements:**
 - Blog posts about llms.txt
 - GitHub discussions
 - Recent release notes
 
-**5. If all fail:**
+**6. If all fail:**
 - Fall back to repository analysis (Phase 3)
 - Note in report: "llms.txt not available"
 

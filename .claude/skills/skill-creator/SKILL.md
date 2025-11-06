@@ -39,7 +39,29 @@ skill-name/
     └── assets/           - Files used in output (templates, icons, fonts, etc.)
 ```
 
+#### Requirements (important)
+
+- Skill should be combined into specific topics, for example: `cloudflare`, `cloudflare-r2`, `cloudflare-workers`, `docker`, `gcloud` should be combined into `devops`
+- `SKILL.md` should be **less than 200 lines** and include the references of related markdown files and scripts.
+- Each script or referenced markdown file should be also **less than 200 lines**, remember that you can always split them into multiple files (**progressive disclosure** principle).
+- Descriptions in metadata of `SKILL.md` files should be both concise and still contains enough usecases of the references and scripts, this will help skills can be activated automatically during the implementation process of Claude Code.
+- **Referenced markdowns**:
+  - Sacrifice grammar for the sake of concision when writing these files.
+  - Can reference other markdown files or scripts as well.
+- **Referenced scripts**:
+  - Prefer nodejs or python scripts instead of bash script, because bash scripts are not well-supported on Windows.
+  - If you're going to write python scripts, make sure you have `requirements.txt`
+  - Make sure scripts respect `.env` file follow this order: `process.env` > `.claude/skills/${SKILL}/.env` > `.claude/skills/.env` > `.claude/.env` 
+  - Create `.env.example` file to show the required environment variables.
+  - Always write tests for these scripts.
+
+**Why?**
+Better **context engineering**: inspired from **progressive disclosure** technique of Agent Skills, when agent skills are activated, Claude Code will consider to load only relevant files into the context, instead of reading all long `SKILL.md` as before.
+
 #### SKILL.md (required)
+
+**File name:** `SKILL.md` (uppercase)
+**File size:** Under 200 lines, if you need more, plit it to multiple files in `references` folder.
 
 **Metadata Quality:** The `name` and `description` in YAML frontmatter determine when Claude will use the skill. Be specific about what the skill does and when to use it. Use the third-person (e.g. "This skill should be used when..." instead of "Use this skill when...").
 
@@ -207,3 +229,9 @@ After testing the skill, users may request improvements. Often this happens righ
 2. Notice struggles or inefficiencies
 3. Identify how SKILL.md or bundled resources should be updated
 4. Implement changes and test again
+
+## References
+- [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills.md)
+- [Agent Skills Spec](.claude/skills/agent_skills_spec.md)
+- [Agent Skills Overview](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview.md)
+- [Best Practices](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices.md)

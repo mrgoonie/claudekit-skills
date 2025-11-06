@@ -2,8 +2,12 @@
 /**
  * Fill form fields
  * Usage: node fill.js --selector "#input" --value "text" [--url https://example.com]
+ * Supports both CSS and XPath selectors:
+ *   - CSS: node fill.js --selector "#email" --value "user@example.com"
+ *   - XPath: node fill.js --selector "//input[@type='email']" --value "user@example.com"
  */
 import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from './lib/browser.js';
+import { parseSelector, waitForElement, typeIntoElement, enhanceError } from './lib/selector.js';
 
 async function fill() {
   const args = parseArgs(process.argv.slice(2));
@@ -32,19 +36,18 @@ async function fill() {
       });
     }
 
-    // Wait for element
-    await page.waitForSelector(args.selector, {
+    // Parse and validate selector
+    const parsed = parseSelector(args.selector);
+
+    // Wait for element based on selector type
+    await waitForElement(page, parsed, {
       visible: true,
       timeout: parseInt(args.timeout || '5000')
     });
 
-    // Clear existing value if specified
-    if (args.clear === 'true') {
-      await page.$eval(args.selector, el => el.value = '');
-    }
-
     // Type into element
-    await page.type(args.selector, args.value, {
+    await typeIntoElement(page, parsed, args.value, {
+      clear: args.clear === 'true',
       delay: parseInt(args.delay || '0')
     });
 
@@ -59,7 +62,10 @@ async function fill() {
       await closeBrowser();
     }
   } catch (error) {
-    outputError(error);
+    // Enhance error message with troubleshooting tips
+    const enhanced = enhanceError(error, args.selector);
+    outputError(enhanced);
+    process.exit(1);
   }
 }
 

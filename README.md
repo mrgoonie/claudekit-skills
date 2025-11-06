@@ -29,8 +29,6 @@ Recent updates make Claude Code an ideal companion for these skills:
 
 (See Anthropic’s [Claude Code on the web](https://www.anthropic.com/news/claude-code-on-the-web) announcement and Ars Technica’s coverage of the new sandbox runtime for deeper context.)
 
-[![ClaudeKit Agent Skills](./claudekit.png)](https://claudekit.cc)
-
 ## Skills catalog
 
 ### 🔐 Authentication & Security
@@ -124,3 +122,9 @@ This collection covers the essentials. If you need advanced regulated-industry s
 **I've been spending 6+ months to dig into every aspect of Claude Code so you don't have to.**
 
 [![ClaudeKit Agent Skills](./claudekit.png)](https://claudekit.cc)
+
+I've basically been sharing everything I learned about Claude Code on Substack: https://faafospecialist.substack.com/
+
+So if you find this collection useful, please consider supporting my product at [ClaudeKit.cc](https://claudekit.cc).
+
+Thanks for your support! 🥰

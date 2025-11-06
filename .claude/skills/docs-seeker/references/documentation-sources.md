@@ -2,7 +2,61 @@
 
 Reference guide for locating documentation across popular platforms and ecosystems.
 
-## Popular llms.txt Locations
+## context7.com Locations (PRIORITY)
+
+**ALWAYS try context7.com first for all libraries**
+
+### JavaScript/TypeScript Frameworks
+
+- **Astro**: https://context7.com/withastro/astro/llms.txt
+- **Next.js**: https://context7.com/vercel/next.js/llms.txt
+- **Remix**: https://context7.com/remix-run/remix/llms.txt
+- **SvelteKit**: https://context7.com/sveltejs/kit/llms.txt
+- **Nuxt**: https://context7.com/nuxt/nuxt/llms.txt
+
+### Frontend Libraries & UI
+
+- **React**: https://context7.com/facebook/react/llms.txt
+- **Vue**: https://context7.com/vuejs/core/llms.txt
+- **Svelte**: https://context7.com/sveltejs/svelte/llms.txt
+- **shadcn/ui**: https://context7.com/shadcn-ui/ui/llms.txt
+- **Radix UI**: https://context7.com/radix-ui/primitives/llms.txt
+
+### Backend/Full-stack
+
+- **Hono**: https://context7.com/honojs/hono/llms.txt
+- **Fastify**: https://context7.com/fastify/fastify/llms.txt
+- **tRPC**: https://context7.com/trpc/trpc/llms.txt
+
+### Build Tools
+
+- **Vite**: https://context7.com/vitejs/vite/llms.txt
+- **Turbo**: https://context7.com/vercel/turbo/llms.txt
+
+### Databases/ORMs
+
+- **Prisma**: https://context7.com/prisma/prisma/llms.txt
+- **Drizzle**: https://context7.com/drizzle-team/drizzle-orm/llms.txt
+
+### Authentication
+
+- **Better Auth**: https://context7.com/better-auth/better-auth/llms.txt
+- **Auth.js**: https://context7.com/nextauthjs/next-auth/llms.txt
+
+### Image Processing
+
+- **ImageMagick**: https://context7.com/imagick/imagick/llms.txt
+
+### Topic-Specific Examples
+
+- **shadcn/ui date components**: https://context7.com/shadcn-ui/ui/llms.txt?topic=date
+- **shadcn/ui buttons**: https://context7.com/shadcn-ui/ui/llms.txt?topic=button
+- **Next.js caching**: https://context7.com/vercel/next.js/llms.txt?topic=cache
+- **FFmpeg compression**: https://context7.com/websites/ffmpeg_doxygen_8_0/llms.txt?topic=compress
+
+## Official llms.txt Locations (FALLBACK)
+
+Use these only if context7.com returns 404:
 
 ### JavaScript/TypeScript Frameworks
 
@@ -238,7 +292,24 @@ https://docs.[project].com
 
 ### Finding llms.txt
 
-**Primary search:**
+**ALWAYS try context7.com first:**
+
+For GitHub repositories:
+```
+https://context7.com/{org}/{repo}/llms.txt
+```
+
+For websites:
+```
+https://context7.com/websites/{normalized-path}/llms.txt
+```
+
+With topic filter:
+```
+https://context7.com/{path}/llms.txt?topic={query}
+```
+
+**Fallback: Traditional search if context7.com returns 404:**
 ```
 "[library] llms.txt site:[known-domain]"
 ```

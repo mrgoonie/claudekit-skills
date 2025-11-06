@@ -2,16 +2,60 @@
 
 Complete reference for choosing and using the right tools for documentation discovery.
 
+## context7.com (PRIORITY)
+
+**Use FIRST for all llms.txt lookups**
+
+**Patterns:**
+
+GitHub repositories:
+```
+Pattern: https://context7.com/{org}/{repo}/llms.txt
+Examples:
+- https://github.com/vercel/next.js → https://context7.com/vercel/next.js/llms.txt
+- https://github.com/shadcn-ui/ui → https://context7.com/shadcn-ui/ui/llms.txt
+```
+
+Websites:
+```
+Pattern: https://context7.com/websites/{normalized-path}/llms.txt
+Examples:
+- https://docs.imgix.com/ → https://context7.com/websites/imgix/llms.txt
+- https://ffmpeg.org/doxygen/8.0/ → https://context7.com/websites/ffmpeg_doxygen_8_0/llms.txt
+```
+
+Topic-specific searches:
+```
+Pattern: https://context7.com/{path}/llms.txt?topic={query}
+Examples:
+- https://context7.com/shadcn-ui/ui/llms.txt?topic=date
+- https://context7.com/vercel/next.js/llms.txt?topic=cache
+- https://context7.com/websites/ffmpeg_doxygen_8_0/llms.txt?topic=compress
+```
+
+**Benefits:**
+- Comprehensive aggregator of documentation
+- Up-to-date content
+- Topic filtering for targeted results
+- Consistent format across libraries
+- Reduces search time
+
+**When to use:**
+- ALWAYS try context7.com first before WebSearch
+- Use topic parameter when user asks about specific feature
+- Fall back to WebSearch only if context7.com returns 404
+
 ## WebSearch
 
 **Use when:**
-- Finding llms.txt URLs
+- context7.com unavailable or returns 404
+- Finding GitHub repository URLs
 - Locating official documentation sites
-- Discovering GitHub repositories
 - Identifying package registries
 - Searching for specific versions
 
 **Best practices:**
+- Try context7.com FIRST
 - Include domain in query: `site:docs.example.com`
 - Specify version when needed: `v2.0 llms.txt`
 - Use official terms: "official repository" "documentation"
@@ -165,6 +209,26 @@ repomix --include "docs/**,README.md" --output docs.xml
 ```
 Need documentation?
   ↓
+Try context7.com first
+  ↓
+Know GitHub org/repo?
+  YES → https://context7.com/{org}/{repo}/llms.txt
+  NO → Continue
+  ↓
+Know website URL?
+  YES → https://context7.com/websites/{normalized-path}/llms.txt
+  NO → Continue
+  ↓
+Specific topic/feature?
+  YES → Add ?topic={query} parameter
+  NO → Use base llms.txt URL
+  ↓
+context7.com found?
+  YES → Process llms.txt URLs (go to URL count check)
+  NO → Continue
+  ↓
+Fallback: WebSearch for llms.txt
+  ↓
 Single URL?
   YES → WebFetch
   NO → Continue
@@ -189,6 +253,8 @@ No structured docs?
 
 | Tool | Best For | Speed | Coverage | Complexity |
 |------|----------|-------|----------|------------|
+| context7.com | llms.txt lookup | Instant | High | Low |
+| context7.com?topic= | Targeted search | Instant | Focused | Low |
 | WebSearch | Finding URLs | Fast | Narrow | Low |
 | WebFetch | Single page | Fast | Single | Low |
 | Explorer | Multiple URLs | Fast | Medium | Medium |

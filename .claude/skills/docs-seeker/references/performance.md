@@ -4,6 +4,58 @@ Strategies and techniques for maximizing speed and efficiency in documentation d
 
 ## Core Principles
 
+### 0. Use context7.com for Instant llms.txt Access
+
+**Fastest Approach:**
+
+Direct URL construction instead of searching:
+```
+Traditional: WebSearch (15-30s) → WebFetch (5-10s) = 20-40s
+context7.com: Direct WebFetch (5-10s) = 5-10s
+
+Speed improvement: 2-4x faster
+```
+
+**Benefits:**
+- No search required (instant URL construction)
+- Consistent URL patterns
+- Reliable availability
+- Topic filtering for targeted results
+
+**Examples:**
+```
+GitHub repo:
+https://context7.com/vercel/next.js/llms.txt
+→ Instant, no search needed
+
+Website:
+https://context7.com/websites/imgix/llms.txt
+→ Instant, no search needed
+
+Topic-specific:
+https://context7.com/shadcn-ui/ui/llms.txt?topic=date
+→ Filtered results, even faster
+```
+
+**Performance Impact:**
+```
+Without context7.com:
+1. WebSearch for llms.txt: 15s
+2. WebFetch llms.txt: 5s
+3. Launch agents: 5s
+Total: 25s
+
+With context7.com:
+1. Direct WebFetch: 5s
+2. Launch agents: 5s
+Total: 10s (2.5x faster!)
+
+With context7.com + topic:
+1. Direct WebFetch (filtered): 3s
+2. Process focused results: 2s
+Total: 5s (5x faster!)
+```
+
 ### 1. Minimize Sequential Operations
 
 **The Problem:**
