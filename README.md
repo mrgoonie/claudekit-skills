@@ -10,9 +10,9 @@ Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/
 
 ## Update [Nov 2025]: No more context bloat with "mcp-manager" subagent + "mcp-management" skills!
 
-![No more context bloat with "mcp-manager" subagent + "mcp-management" skills](./assets/mcp-management.jpeg)
+![No more context bloat with "mcp-manager" subagent + "mcp-management" skills](https://github.com/mrgoonie/claudekit-skills/blob/main/assets/mcp-management.jpeg?raw=true)
 
-📖 Read more here: [.claude/skills/mcp-management/README.md](.claude/skills/mcp-management/README.md)
+📖 Read more here: [MCP_MANAGEMENT.md](MCP_MANAGEMENT.md)
 
 ## ✨ Skills just got refactored!
 
@@ -97,7 +97,7 @@ This collection covers the essentials. If you need advanced regulated-industry s
 
 **I've been spending 6+ months to dig into every aspect of Claude Code so you don't have to.**
 
-[![ClaudeKit Agent Skills](./claudekit.png)](https://claudekit.cc)
+[![ClaudeKit Agent Skills](https://github.com/mrgoonie/claudekit-skills/blob/main/claudekit.png?raw=true)](https://claudekit.cc)
 
 I've basically been sharing everything I learned about Claude Code on Substack: https://faafospecialist.substack.com/
 
