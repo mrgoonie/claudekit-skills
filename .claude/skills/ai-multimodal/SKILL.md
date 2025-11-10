@@ -136,6 +136,7 @@ python scripts/gemini_batch_process.py \
   --files image.jpg \
   --task analyze \
   --prompt "Describe this image" \
+  --output docs/assets/<output-name>.md \
   --model gemini-2.5-flash
 ```
 
@@ -145,6 +146,7 @@ python scripts/gemini_batch_process.py \
   --files video.mp4 \
   --task analyze \
   --prompt "Summarize key points with timestamps" \
+  --output docs/assets/<output-name>.md \
   --model gemini-2.5-flash
 ```
 
@@ -154,6 +156,7 @@ python scripts/gemini_batch_process.py \
   --files document.pdf \
   --task extract \
   --prompt "Extract table data as JSON" \
+  --output docs/assets/<output-name>.md \
   --format json
 ```
 
@@ -162,6 +165,7 @@ python scripts/gemini_batch_process.py \
 python scripts/gemini_batch_process.py \
   --task generate \
   --prompt "A futuristic city at sunset" \
+  --output docs/assets/<output-file-name> \
   --model gemini-2.5-flash-image \
   --aspect-ratio 16:9
 ```
@@ -171,27 +175,27 @@ python scripts/gemini_batch_process.py \
 # Prepare large video for processing
 python scripts/media_optimizer.py \
   --input large-video.mp4 \
-  --output optimized-video.mp4 \
+  --output docs/assets/<output-file-name> \
   --target-size 100MB
 
 # Batch optimize multiple files
 python scripts/media_optimizer.py \
   --input-dir ./videos \
-  --output-dir ./optimized \
+  --output-dir docs/assets/optimized \
   --quality 85
 ```
 
-**Convert Documents**:
+**Convert Documents to Markdown**:
 ```bash
 # Convert to PDF
 python scripts/document_converter.py \
   --input document.docx \
-  --output document.pdf
+  --output docs/assets/document.md
 
 # Extract pages
 python scripts/document_converter.py \
   --input large.pdf \
-  --output chapter1.pdf \
+  --output docs/assets/chapter1.md \
   --pages 1-20
 ```
 
