@@ -8,6 +8,12 @@
 
 Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview
 
+## Update [Nov 2025]: No more context bloat with "mcp-manager" subagent + "mcp-management" skills!
+
+![No more context bloat with "mcp-manager" subagent + "mcp-management" skills](./assets/mcp-management.jpeg)
+
+📖 Read more here: [.claude/skills/mcp-management/README.md](.claude/skills/mcp-management/README.md)
+
 ## ✨ Skills just got refactored!
 
 📖 Read more here: [REFACTOR.md](REFACTOR.md)

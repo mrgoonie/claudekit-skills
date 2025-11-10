@@ -1,20 +1,35 @@
 #!/usr/bin/env python3
 """
-Convert documents to PDF for Gemini API processing.
+Convert documents to Markdown using Gemini API.
+
+Supports all document types:
+- PDF documents (native vision processing)
+- Images (JPEG, PNG, WEBP, HEIC)
+- Office documents (DOCX, XLSX, PPTX)
+- HTML, TXT, and other text formats
 
 Features:
-- Convert DOCX, XLSX, PPTX, HTML, Markdown to PDF
-- Extract page ranges from PDFs
-- Optimize PDFs for Gemini API
-- Extract images from PDFs
+- Converts to clean markdown format
+- Preserves structure, tables, and formatting
+- Extracts text from images and scanned documents
 - Batch conversion support
+- Saves to docs/assets/document-extraction.md by default
 """
 
 import argparse
 import os
 import sys
+import time
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
+
+try:
+    from google import genai
+    from google.genai import types
+except ImportError:
+    print("Error: google-genai package not installed")
+    print("Install with: pip install google-genai")
+    sys.exit(1)
 
 try:
     from dotenv import load_dotenv
@@ -22,8 +37,8 @@ except ImportError:
     load_dotenv = None
 
 
-def load_env_files():
-    """Load .env files in correct priority order.
+def find_api_key() -> Optional[str]:
+    """Find Gemini API key using correct priority order.
 
     Priority order (highest to lowest):
     1. process.env (runtime environment variables)
@@ -31,440 +46,349 @@ def load_env_files():
     3. .claude/skills/.env (shared skills config)
     4. .claude/.env (Claude global config)
     """
-    if not load_dotenv:
-        return
+    # Priority 1: Already in process.env (highest)
+    api_key = os.getenv('GEMINI_API_KEY')
+    if api_key:
+        return api_key
 
-    # Determine base paths
+    # Load .env files if dotenv available
+    if load_dotenv:
+        # Determine base paths
+        script_dir = Path(__file__).parent
+        skill_dir = script_dir.parent  # .claude/skills/ai-multimodal
+        skills_dir = skill_dir.parent   # .claude/skills
+        claude_dir = skills_dir.parent  # .claude
+
+        # Priority 2: Skill-specific .env
+        env_file = skill_dir / '.env'
+        if env_file.exists():
+            load_dotenv(env_file)
+            api_key = os.getenv('GEMINI_API_KEY')
+            if api_key:
+                return api_key
+
+        # Priority 3: Shared skills .env
+        env_file = skills_dir / '.env'
+        if env_file.exists():
+            load_dotenv(env_file)
+            api_key = os.getenv('GEMINI_API_KEY')
+            if api_key:
+                return api_key
+
+        # Priority 4: Claude global .env
+        env_file = claude_dir / '.env'
+        if env_file.exists():
+            load_dotenv(env_file)
+            api_key = os.getenv('GEMINI_API_KEY')
+            if api_key:
+                return api_key
+
+    return None
+
+
+def find_project_root() -> Path:
+    """Find project root directory."""
     script_dir = Path(__file__).parent
-    skill_dir = script_dir.parent  # .claude/skills/ai-multimodal
-    skills_dir = skill_dir.parent   # .claude/skills
-    claude_dir = skills_dir.parent  # .claude
 
-    # Priority 2: Skill-specific .env
-    env_file = skill_dir / '.env'
-    if env_file.exists():
-        load_dotenv(env_file)
+    # Look for .git or .claude directory
+    for parent in [script_dir] + list(script_dir.parents):
+        if (parent / '.git').exists() or (parent / '.claude').exists():
+            return parent
 
-    # Priority 3: Shared skills .env
-    env_file = skills_dir / '.env'
-    if env_file.exists():
-        load_dotenv(env_file)
-
-    # Priority 4: Claude global .env
-    env_file = claude_dir / '.env'
-    if env_file.exists():
-        load_dotenv(env_file)
+    return script_dir
 
 
-# Load environment variables at module level
-load_env_files()
+def get_mime_type(file_path: str) -> str:
+    """Determine MIME type from file extension."""
+    ext = Path(file_path).suffix.lower()
+
+    mime_types = {
+        # Documents
+        '.pdf': 'application/pdf',
+        '.txt': 'text/plain',
+        '.html': 'text/html',
+        '.htm': 'text/html',
+        '.md': 'text/markdown',
+        '.csv': 'text/csv',
+        # Images
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.png': 'image/png',
+        '.webp': 'image/webp',
+        '.heic': 'image/heic',
+        '.heif': 'image/heif',
+        # Office (need to be uploaded as binary)
+        '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    }
+
+    return mime_types.get(ext, 'application/octet-stream')
 
 
-def check_dependencies() -> dict:
-    """Check which conversion libraries are available."""
-    deps = {}
+def upload_file(client: genai.Client, file_path: str, verbose: bool = False) -> Any:
+    """Upload file to Gemini File API."""
+    if verbose:
+        print(f"Uploading {file_path}...")
 
-    try:
-        import pypdf
-        deps['pypdf'] = True
-    except ImportError:
-        deps['pypdf'] = False
+    myfile = client.files.upload(file=file_path)
 
-    try:
-        import docx2pdf
-        deps['docx2pdf'] = True
-    except ImportError:
-        deps['docx2pdf'] = False
+    # Wait for processing if needed
+    max_wait = 300  # 5 minutes
+    elapsed = 0
+    while myfile.state.name == 'PROCESSING' and elapsed < max_wait:
+        time.sleep(2)
+        myfile = client.files.get(name=myfile.name)
+        elapsed += 2
+        if verbose and elapsed % 10 == 0:
+            print(f"  Processing... {elapsed}s")
 
-    try:
-        import markdown
-        deps['markdown'] = True
-    except ImportError:
-        deps['markdown'] = False
+    if myfile.state.name == 'FAILED':
+        raise ValueError(f"File processing failed: {file_path}")
 
-    try:
-        from PIL import Image
-        deps['pillow'] = True
-    except ImportError:
-        deps['pillow'] = False
+    if myfile.state.name == 'PROCESSING':
+        raise TimeoutError(f"Processing timeout after {max_wait}s: {file_path}")
 
-    return deps
+    if verbose:
+        print(f"  Uploaded: {myfile.name}")
+
+    return myfile
 
 
-def extract_pdf_pages(
-    input_path: str,
-    output_path: str,
-    page_range: str,
-    verbose: bool = False
-) -> bool:
-    """Extract specific pages from PDF."""
-    try:
-        from pypdf import PdfReader, PdfWriter
-    except ImportError:
-        print("Error: pypdf not installed")
-        print("Install with: pip install pypdf")
-        return False
+def convert_to_markdown(
+    client: genai.Client,
+    file_path: str,
+    model: str = 'gemini-2.5-flash',
+    custom_prompt: Optional[str] = None,
+    verbose: bool = False,
+    max_retries: int = 3
+) -> Dict[str, Any]:
+    """Convert a document to markdown using Gemini."""
 
-    try:
-        reader = PdfReader(input_path)
-        writer = PdfWriter()
-
-        # Parse page range
-        if '-' in page_range:
-            start, end = page_range.split('-')
-            start = int(start) - 1  # 0-indexed
-            end = int(end)
-            pages = range(start, end)
-        else:
-            pages = [int(page_range) - 1]
-
-        if verbose:
-            print(f"Total pages in PDF: {len(reader.pages)}")
-            print(f"Extracting pages: {page_range}")
-
-        for page_num in pages:
-            if 0 <= page_num < len(reader.pages):
-                writer.add_page(reader.pages[page_num])
-            else:
-                print(f"Warning: Page {page_num + 1} out of range")
-
-        with open(output_path, 'wb') as output_file:
-            writer.write(output_file)
-
-        if verbose:
-            print(f"Extracted {len(writer.pages)} pages to {output_path}")
-
-        return True
-
-    except Exception as e:
-        print(f"Error extracting pages: {e}")
-        return False
-
-
-def optimize_pdf(
-    input_path: str,
-    output_path: str,
-    verbose: bool = False
-) -> bool:
-    """Optimize PDF for smaller file size."""
-    try:
-        from pypdf import PdfReader, PdfWriter
-    except ImportError:
-        print("Error: pypdf not installed")
-        return False
-
-    try:
-        reader = PdfReader(input_path)
-        writer = PdfWriter()
-
-        for page in reader.pages:
-            writer.add_page(page)
-
-        # Compress
-        for page in writer.pages:
-            page.compress_content_streams()
-
-        with open(output_path, 'wb') as output_file:
-            writer.write(output_file)
-
-        if verbose:
-            input_size = Path(input_path).stat().st_size
-            output_size = Path(output_path).stat().st_size
-            compression = (1 - output_size / input_size) * 100
-            print(f"Input: {input_size / (1024*1024):.2f} MB")
-            print(f"Output: {output_size / (1024*1024):.2f} MB")
-            print(f"Compression: {compression:.1f}%")
-
-        return True
-
-    except Exception as e:
-        print(f"Error optimizing PDF: {e}")
-        return False
-
-
-def extract_images_from_pdf(
-    input_path: str,
-    output_dir: str,
-    verbose: bool = False
-) -> List[str]:
-    """Extract images from PDF."""
-    try:
-        from pypdf import PdfReader
-        from PIL import Image
-        import io
-    except ImportError:
-        print("Error: pypdf or Pillow not installed")
-        print("Install with: pip install pypdf pillow")
-        return []
-
-    try:
-        reader = PdfReader(input_path)
-        output_path = Path(output_dir)
-        output_path.mkdir(parents=True, exist_ok=True)
-
-        extracted_files = []
-        image_count = 0
-
-        for page_num, page in enumerate(reader.pages):
-            if '/XObject' in page['/Resources']:
-                xobjects = page['/Resources']['/XObject'].get_object()
-
-                for obj_name in xobjects:
-                    obj = xobjects[obj_name]
-
-                    if obj['/Subtype'] == '/Image':
-                        size = (obj['/Width'], obj['/Height'])
-                        data = obj.get_data()
-
-                        # Determine format
-                        if '/Filter' in obj:
-                            filter_type = obj['/Filter']
-                            if filter_type == '/DCTDecode':
-                                ext = 'jpg'
-                            elif filter_type == '/JPXDecode':
-                                ext = 'jp2'
-                            elif filter_type == '/FlateDecode':
-                                ext = 'png'
-                            else:
-                                ext = 'png'
-                        else:
-                            ext = 'png'
-
-                        # Save image
-                        output_file = output_path / f"page{page_num+1}_img{image_count+1}.{ext}"
-
-                        try:
-                            if ext == 'png':
-                                img = Image.frombytes('RGB', size, data)
-                                img.save(output_file)
-                            else:
-                                with open(output_file, 'wb') as f:
-                                    f.write(data)
-
-                            extracted_files.append(str(output_file))
-                            image_count += 1
-
-                            if verbose:
-                                print(f"Extracted: {output_file.name}")
-
-                        except Exception as e:
-                            if verbose:
-                                print(f"Could not extract image: {e}")
-
-        if verbose:
-            print(f"\nExtracted {len(extracted_files)} images to {output_dir}")
-
-        return extracted_files
-
-    except Exception as e:
-        print(f"Error extracting images: {e}")
-        return []
-
-
-def convert_markdown_to_pdf(
-    input_path: str,
-    output_path: str,
-    verbose: bool = False
-) -> bool:
-    """Convert Markdown to PDF (requires wkhtmltopdf or similar)."""
-    try:
-        import markdown
-        import subprocess
-    except ImportError:
-        print("Error: markdown not installed")
-        print("Install with: pip install markdown")
-        return False
-
-    try:
-        # Read markdown
-        with open(input_path, 'r', encoding='utf-8') as f:
-            md_content = f.read()
-
-        # Convert to HTML
-        html = markdown.markdown(md_content)
-
-        # Wrap in basic HTML structure
-        html_full = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <style>
-                body {{ font-family: Arial, sans-serif; margin: 40px; }}
-                pre {{ background: #f4f4f4; padding: 10px; }}
-                code {{ background: #f4f4f4; padding: 2px 5px; }}
-            </style>
-        </head>
-        <body>
-            {html}
-        </body>
-        </html>
-        """
-
-        # Save HTML temporarily
-        html_path = Path(output_path).with_suffix('.html')
-        with open(html_path, 'w', encoding='utf-8') as f:
-            f.write(html_full)
-
-        # Convert to PDF using wkhtmltopdf
+    for attempt in range(max_retries):
         try:
-            cmd = ['wkhtmltopdf', str(html_path), output_path]
-            subprocess.run(cmd, check=True, capture_output=True)
+            file_path_obj = Path(file_path)
+            file_size = file_path_obj.stat().st_size
+            use_file_api = file_size > 20 * 1024 * 1024  # >20MB
 
-            # Clean up HTML
-            html_path.unlink()
+            # Default prompt for markdown conversion
+            if custom_prompt:
+                prompt = custom_prompt
+            else:
+                prompt = """Convert this document to clean, well-formatted Markdown.
 
+Requirements:
+- Preserve all content, structure, and formatting
+- Convert tables to markdown table format
+- Maintain heading hierarchy (# ## ### etc)
+- Preserve lists, code blocks, and quotes
+- Extract text from images if present
+- Keep formatting consistent and readable
+
+Output only the markdown content without any preamble or explanation."""
+
+            # Upload or inline the file
+            if use_file_api:
+                myfile = upload_file(client, str(file_path), verbose)
+                content = [prompt, myfile]
+            else:
+                with open(file_path, 'rb') as f:
+                    file_bytes = f.read()
+
+                mime_type = get_mime_type(str(file_path))
+                content = [
+                    prompt,
+                    types.Part.from_bytes(data=file_bytes, mime_type=mime_type)
+                ]
+
+            # Generate markdown
+            response = client.models.generate_content(
+                model=model,
+                contents=content
+            )
+
+            markdown_content = response.text if hasattr(response, 'text') else ''
+
+            return {
+                'file': str(file_path),
+                'status': 'success',
+                'markdown': markdown_content
+            }
+
+        except Exception as e:
+            if attempt == max_retries - 1:
+                return {
+                    'file': str(file_path),
+                    'status': 'error',
+                    'error': str(e),
+                    'markdown': None
+                }
+
+            wait_time = 2 ** attempt
             if verbose:
-                print(f"Converted {input_path} to {output_path}")
-
-            return True
-
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            print("Error: wkhtmltopdf not found")
-            print("Install: apt-get install wkhtmltopdf (Linux) or brew install wkhtmltopdf (Mac)")
-            print(f"HTML version saved to: {html_path}")
-            return False
-
-    except Exception as e:
-        print(f"Error converting markdown: {e}")
-        return False
+                print(f"  Retry {attempt + 1} after {wait_time}s: {e}")
+            time.sleep(wait_time)
 
 
-def convert_html_to_pdf(
-    input_path: str,
-    output_path: str,
+def batch_convert(
+    files: List[str],
+    output_file: Optional[str] = None,
+    auto_name: bool = False,
+    model: str = 'gemini-2.5-flash',
+    custom_prompt: Optional[str] = None,
     verbose: bool = False
-) -> bool:
-    """Convert HTML to PDF."""
-    try:
-        import subprocess
-    except ImportError:
-        return False
+) -> List[Dict[str, Any]]:
+    """Batch convert multiple files to markdown."""
 
-    try:
-        cmd = ['wkhtmltopdf', input_path, output_path]
-        subprocess.run(cmd, check=True, capture_output=True)
+    api_key = find_api_key()
+    if not api_key:
+        print("Error: GEMINI_API_KEY not found")
+        print("Set via: export GEMINI_API_KEY='your-key'")
+        print("Or create .env file with: GEMINI_API_KEY=your-key")
+        sys.exit(1)
+
+    client = genai.Client(api_key=api_key)
+    results = []
+
+    # Determine output path
+    if not output_file:
+        project_root = find_project_root()
+        output_dir = project_root / 'docs' / 'assets'
+
+        if auto_name and len(files) == 1:
+            # Auto-generate meaningful filename from input
+            input_path = Path(files[0])
+            base_name = input_path.stem
+            output_file = str(output_dir / f"{base_name}-extraction.md")
+        else:
+            output_file = str(output_dir / 'document-extraction.md')
+
+    output_path = Path(output_file)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Process each file
+    for i, file_path in enumerate(files, 1):
+        if verbose:
+            print(f"\n[{i}/{len(files)}] Converting: {file_path}")
+
+        result = convert_to_markdown(
+            client=client,
+            file_path=file_path,
+            model=model,
+            custom_prompt=custom_prompt,
+            verbose=verbose
+        )
+
+        results.append(result)
 
         if verbose:
-            print(f"Converted {input_path} to {output_path}")
+            status = result.get('status', 'unknown')
+            print(f"  Status: {status}")
 
-        return True
+    # Save combined markdown
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write("# Document Extraction Results\n\n")
+        f.write(f"Converted {len(files)} document(s) to markdown.\n\n")
+        f.write("---\n\n")
 
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        print("Error: wkhtmltopdf not found")
-        return False
+        for result in results:
+            f.write(f"## {Path(result['file']).name}\n\n")
+
+            if result['status'] == 'success' and result.get('markdown'):
+                f.write(result['markdown'])
+                f.write("\n\n")
+            elif result['status'] == 'success':
+                f.write("**Note**: Conversion succeeded but no content was returned.\n\n")
+            else:
+                f.write(f"**Error**: {result.get('error', 'Unknown error')}\n\n")
+
+            f.write("---\n\n")
+
+    if verbose or True:  # Always show output location
+        print(f"\n{'='*50}")
+        print(f"Converted: {len(results)} file(s)")
+        print(f"Success: {sum(1 for r in results if r['status'] == 'success')}")
+        print(f"Failed: {sum(1 for r in results if r['status'] == 'error')}")
+        print(f"Output saved to: {output_path}")
+
+    return results
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Convert documents to PDF for Gemini API',
+        description='Convert documents to Markdown using Gemini API',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Extract pages from PDF
-  %(prog)s --input document.pdf --output chapter1.pdf --pages 1-20
+  # Convert single PDF to markdown (default name)
+  %(prog)s --input document.pdf
 
-  # Optimize PDF
-  %(prog)s --input large.pdf --output optimized.pdf --optimize
+  # Auto-generate meaningful filename
+  %(prog)s --input testpdf.pdf --auto-name
+  # Output: docs/assets/testpdf-extraction.md
 
-  # Extract images from PDF
-  %(prog)s --input document.pdf --extract-images --output-dir ./images
+  # Convert multiple files
+  %(prog)s --input doc1.pdf doc2.docx image.png
 
-  # Convert Markdown to PDF
-  %(prog)s --input README.md --output README.pdf
+  # Specify custom output location
+  %(prog)s --input document.pdf --output ./output.md
 
-  # Convert HTML to PDF
-  %(prog)s --input page.html --output page.pdf
+  # Use custom prompt
+  %(prog)s --input document.pdf --prompt "Extract only the tables as markdown"
 
-Note: Some conversions require additional tools:
-  - Markdown/HTML to PDF: wkhtmltopdf
-  - DOCX to PDF: Microsoft Office or LibreOffice
+  # Batch convert directory
+  %(prog)s --input ./documents/*.pdf --verbose
+
+Supported formats:
+  - PDF documents (up to 1,000 pages)
+  - Images (JPEG, PNG, WEBP, HEIC)
+  - Office documents (DOCX, XLSX, PPTX)
+  - Text formats (TXT, HTML, Markdown, CSV)
+
+Default output: <project-root>/docs/assets/document-extraction.md
         """
     )
 
-    parser.add_argument('--input', required=True, help='Input file')
-    parser.add_argument('--output', help='Output file or directory')
-    parser.add_argument('--pages', help='Page range (e.g., 1-10 or 5)')
-    parser.add_argument('--optimize', action='store_true', help='Optimize PDF')
-    parser.add_argument('--extract-images', action='store_true', help='Extract images from PDF')
-    parser.add_argument('--output-dir', help='Output directory for extracted images')
-    parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+    parser.add_argument('--input', '-i', nargs='+', required=True,
+                       help='Input file(s) to convert')
+    parser.add_argument('--output', '-o',
+                       help='Output markdown file (default: docs/assets/document-extraction.md)')
+    parser.add_argument('--auto-name', '-a', action='store_true',
+                       help='Auto-generate meaningful output filename from input (e.g., document.pdf -> document-extraction.md)')
+    parser.add_argument('--model', default='gemini-2.5-flash',
+                       help='Gemini model to use (default: gemini-2.5-flash)')
+    parser.add_argument('--prompt', '-p',
+                       help='Custom prompt for conversion')
+    parser.add_argument('--verbose', '-v', action='store_true',
+                       help='Verbose output')
 
     args = parser.parse_args()
 
-    # Check dependencies
-    deps = check_dependencies()
+    # Validate input files
+    files = []
+    for file_pattern in args.input:
+        file_path = Path(file_pattern)
+        if file_path.exists() and file_path.is_file():
+            files.append(str(file_path))
+        else:
+            # Try glob pattern
+            import glob
+            matched = glob.glob(file_pattern)
+            files.extend([f for f in matched if Path(f).is_file()])
 
-    input_path = Path(args.input)
-    if not input_path.exists():
-        print(f"Error: Input file not found: {input_path}")
+    if not files:
+        print("Error: No valid input files found")
         sys.exit(1)
 
-    ext = input_path.suffix.lower()
-
-    # Extract images
-    if args.extract_images:
-        if not deps['pypdf'] or not deps['pillow']:
-            print("Error: pypdf and pillow required for image extraction")
-            print("Install with: pip install pypdf pillow")
-            sys.exit(1)
-
-        output_dir = args.output_dir or './extracted_images'
-        images = extract_images_from_pdf(str(input_path), output_dir, args.verbose)
-        sys.exit(0 if images else 1)
-
-    # Require output for other operations
-    if not args.output:
-        parser.error("--output required")
-
-    output_path = Path(args.output)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    # Extract pages
-    if args.pages:
-        if ext != '.pdf':
-            print("Error: Page extraction only works with PDF files")
-            sys.exit(1)
-
-        if not deps['pypdf']:
-            print("Error: pypdf required")
-            print("Install with: pip install pypdf")
-            sys.exit(1)
-
-        success = extract_pdf_pages(str(input_path), str(output_path), args.pages, args.verbose)
-        sys.exit(0 if success else 1)
-
-    # Optimize PDF
-    if args.optimize:
-        if ext != '.pdf':
-            print("Error: Optimization only works with PDF files")
-            sys.exit(1)
-
-        if not deps['pypdf']:
-            print("Error: pypdf required")
-            sys.exit(1)
-
-        success = optimize_pdf(str(input_path), str(output_path), args.verbose)
-        sys.exit(0 if success else 1)
-
-    # Convert to PDF
-    if ext == '.md' or ext == '.markdown':
-        if not deps['markdown']:
-            print("Error: markdown package required")
-            print("Install with: pip install markdown")
-            sys.exit(1)
-
-        success = convert_markdown_to_pdf(str(input_path), str(output_path), args.verbose)
-        sys.exit(0 if success else 1)
-
-    elif ext == '.html' or ext == '.htm':
-        success = convert_html_to_pdf(str(input_path), str(output_path), args.verbose)
-        sys.exit(0 if success else 1)
-
-    else:
-        print(f"Error: Unsupported file type: {ext}")
-        print("Supported: .pdf (extract/optimize), .md, .html")
-        sys.exit(1)
+    # Convert files
+    batch_convert(
+        files=files,
+        output_file=args.output,
+        auto_name=args.auto_name,
+        model=args.model,
+        custom_prompt=args.prompt,
+        verbose=args.verbose
+    )
 
 
 if __name__ == '__main__':
