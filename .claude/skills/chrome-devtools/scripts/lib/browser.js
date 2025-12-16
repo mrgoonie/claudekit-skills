@@ -3,6 +3,12 @@
  */
 import puppeteer from 'puppeteer';
 import debug from 'debug';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ENDPOINT_FILE = path.join(__dirname, '..', '.browser-endpoint');
 
 const log = debug('chrome-devtools:browser');
 
@@ -16,6 +22,22 @@ export async function getBrowser(options = {}) {
   if (browserInstance && browserInstance.isConnected()) {
     log('Reusing existing browser instance');
     return browserInstance;
+  }
+
+  // Check for persistent browser endpoint
+  if (!options.browserUrl && !options.wsEndpoint && fs.existsSync(ENDPOINT_FILE)) {
+    try {
+      const wsEndpoint = fs.readFileSync(ENDPOINT_FILE, 'utf8').trim();
+      log('Found persistent browser endpoint, connecting...');
+      browserInstance = await puppeteer.connect({ browserWSEndpoint: wsEndpoint });
+      return browserInstance;
+    } catch (error) {
+      log('Failed to connect to persistent browser, launching new one:', error.message);
+      // Clean up stale endpoint file
+      if (fs.existsSync(ENDPOINT_FILE)) {
+        fs.unlinkSync(ENDPOINT_FILE);
+      }
+    }
   }
 
   const launchOptions = {
