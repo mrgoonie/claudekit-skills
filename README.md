@@ -100,6 +100,9 @@ No more manual git clones! Install and update skills with simple commands. See [
 ### 🧠 Advanced Reasoning
 - **[sequential-thinking](.claude/skills/sequential-thinking)** - Use when complex problems require systematic step-by-step reasoning with ability to revise thoughts, branch into alternative approaches, or dynamically adjust scope. Ideal for multi-stage analysis, design planning, problem decomposition, or tasks with initially unclear scope.
 
+### 📊 Visualization & Diagramming
+- **[mermaidjs-v11](.claude/skills/mermaidjs-v11)** - Create diagrams and visualizations using Mermaid.js v11 syntax. Generate flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts, user journeys, timelines, architecture diagrams, or any of 24+ diagram types. Supports JavaScript API integration, CLI rendering to SVG/PNG/PDF, theming, configuration, and accessibility features. Essential for documentation, technical diagrams, project planning, system architecture, and visual communication.
+
 ### 🔧 Meta Skills (from Anthropic)
 - **[skill-creator](.claude/skills/skill-creator)** - Guide for creating effective skills with specialized workflows, tool integrations, domain expertise, and bundled resources.
 
