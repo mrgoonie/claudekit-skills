@@ -35,6 +35,7 @@ No more manual git clones! Install and update skills with simple commands. See [
 - **[better-auth](.claude/skills/better-auth)** - Comprehensive TypeScript authentication framework supporting email/password, OAuth, 2FA, passkeys, and multi-tenancy. Works with any framework (Next.js, Nuxt, SvelteKit, etc.).
 
 ### 🤖 AI & Agent Development
+- **[context-engineering](.claude/skills/context-engineering)** - Master context engineering for AI agent systems. Covers context fundamentals, degradation patterns, optimization techniques (compaction, masking, caching), compression strategies, memory architectures, multi-agent patterns, LLM-as-Judge evaluation, tool design, and project development. Use when designing agent architectures, debugging context failures, optimizing token usage, implementing memory systems, or building multi-agent coordination.
 - **[google-adk-python](.claude/skills/google-adk-python)** - Google's Agent Development Kit (ADK) for building AI agents with tool integration, multi-agent orchestration, workflow patterns (sequential, parallel, loop), and deployment to Vertex AI or custom infrastructure.
 
 ### 💻 Backend Development
