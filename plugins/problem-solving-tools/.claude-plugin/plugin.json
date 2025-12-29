@@ -1,0 +1,12 @@
+{
+  "name": "problem-solving-tools",
+  "description": "Advanced problem-solving techniques including collision-zone thinking, inversion exercise, meta-pattern recognition, and more",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT"
+}

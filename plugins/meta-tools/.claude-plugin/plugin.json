@@ -1,0 +1,13 @@
+{
+  "name": "meta-tools",
+  "description": "Meta development tools for creating new skills and code review workflows",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT",
+  "commands": ["./commands/git/", "./commands/skill/"]
+}

@@ -1,0 +1,117 @@
+{
+  "name": "claudekit-skills",
+  "owner": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "metadata": {
+    "description": "Professional Agent Skills for Claude Code - 30+ skills covering AI, web dev, DevOps, databases, document processing, debugging, and more",
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "ai-ml-tools",
+      "source": "./plugins/ai-ml-tools",
+      "description": "AI and ML capabilities: ai-multimodal (Gemini API with image/video/audio processing), google-adk-python (Agent Development Kit)",
+      "version": "1.0.0",
+      "author": {
+        "name": "ClaudeKit",
+        "email": "[email protected]"
+      },
+      "homepage": "https://claudekit.cc",
+      "repository": "https://github.com/mrgoonie/claudekit-skills",
+      "license": "MIT",
+      "keywords": ["ai", "ml", "gemini", "multimodal", "adk"],
+      "category": "productivity"
+    },
+    {
+      "name": "web-dev-tools",
+      "source": "./plugins/web-dev-tools",
+      "description": "Web development skills: frontend-development (React/TypeScript), frontend-design (production UI/UX), ui-styling (shadcn/Tailwind), web-frameworks (Next.js/Turborepo), aesthetic (design principles)",
+      "version": "1.0.0",
+      "keywords": ["web", "frontend", "react", "nextjs", "tailwind", "ui-ux"],
+      "category": "productivity"
+    },
+    {
+      "name": "devops-tools",
+      "source": "./plugins/devops-tools",
+      "description": "DevOps and infrastructure: devops (Cloudflare/Docker/GCP), databases (MongoDB/PostgreSQL), chrome-devtools (Puppeteer automation)",
+      "version": "1.0.0",
+      "keywords": ["devops", "databases", "automation", "cloudflare", "docker"],
+      "category": "productivity"
+    },
+    {
+      "name": "backend-tools",
+      "source": "./plugins/backend-tools",
+      "description": "Backend development: backend-development (Node.js/Python/Go), better-auth (TypeScript auth framework)",
+      "version": "1.0.0",
+      "keywords": ["backend", "nodejs", "python", "authentication"],
+      "category": "productivity"
+    },
+    {
+      "name": "document-processing",
+      "source": "./plugins/document-processing",
+      "description": "Document skills: docx (Word documents), pdf (PDF processing), pptx (PowerPoint), xlsx (Excel/financial modeling)",
+      "version": "1.0.0",
+      "keywords": ["documents", "pdf", "word", "excel", "powerpoint"],
+      "category": "productivity"
+    },
+    {
+      "name": "debugging-tools",
+      "source": "./plugins/debugging-tools",
+      "description": "Debugging frameworks: defense-in-depth, root-cause-tracing, systematic-debugging, verification-before-completion",
+      "version": "1.0.0",
+      "keywords": ["debugging", "testing", "quality-assurance"],
+      "category": "productivity"
+    },
+    {
+      "name": "problem-solving-tools",
+      "source": "./plugins/problem-solving-tools",
+      "description": "Problem-solving techniques: collision-zone-thinking, inversion-exercise, meta-pattern-recognition, scale-game, simplification-cascades, when-stuck",
+      "version": "1.0.0",
+      "keywords": ["problem-solving", "innovation", "thinking"],
+      "category": "productivity"
+    },
+    {
+      "name": "platform-tools",
+      "source": "./plugins/platform-tools",
+      "description": "Platform integrations: shopify (apps/extensions/themes), mcp-management (Model Context Protocol servers), mcp-builder (build MCP servers)",
+      "version": "1.0.0",
+      "keywords": ["shopify", "mcp", "integrations"],
+      "category": "productivity"
+    },
+    {
+      "name": "meta-tools",
+      "source": "./plugins/meta-tools",
+      "description": "Meta development: skill-creator (create new skills), code-review (review workflows)",
+      "version": "1.0.0",
+      "keywords": ["meta", "code-review", "skill-creation"],
+      "category": "productivity"
+    },
+    {
+      "name": "media-tools",
+      "source": "./plugins/media-tools",
+      "description": "Media processing: media-processing (FFmpeg/ImageMagick for video/audio/image processing)",
+      "version": "1.0.0",
+      "keywords": ["media", "ffmpeg", "imagemagick", "video", "audio"],
+      "category": "productivity"
+    },
+    {
+      "name": "research-tools",
+      "source": "./plugins/research-tools",
+      "description": "Research capabilities: docs-seeker (llms.txt documentation discovery), repomix (repo packaging for AI)",
+      "version": "1.0.0",
+      "keywords": ["research", "documentation", "analysis"],
+      "category": "productivity"
+    },
+    {
+      "name": "specialized-tools",
+      "source": "./plugins/specialized-tools",
+      "description": "Specialized skills: sequential-thinking (step-by-step reasoning), mermaidjs-v11 (diagram generation)",
+      "version": "1.0.0",
+      "keywords": ["diagrams", "reasoning", "visualization"],
+      "category": "productivity"
+    }
+  ]
+}

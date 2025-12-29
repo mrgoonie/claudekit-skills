@@ -1,0 +1,1 @@
+../../../.claude/skills/sequential-thinking

@@ -8,6 +8,17 @@
 
 Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview
 
+## 🎉 NEW [Dec 2025]: Claude Code Marketplace!
+
+ClaudeKit Skills is now available as a **Plugin Marketplace** for seamless installation and automatic updates!
+
+```bash
+/plugin marketplace add mrgoonie/claudekit-skills
+/plugin install ai-ml-tools@claudekit-skills
+```
+
+No more manual git clones! Install and update skills with simple commands. See [Getting Started](#getting-started) for full installation guide.
+
 ## Update [Nov 2025]: No more context bloat with "mcp-manager" subagent + "mcp-management" skills!
 
 ![No more context bloat with "mcp-manager" subagent + "mcp-management" skills](https://github.com/mrgoonie/claudekit-skills/blob/main/assets/mcp-management.jpeg?raw=true)
@@ -93,9 +104,55 @@ Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/
 - **[skill-creator](.claude/skills/skill-creator)** - Guide for creating effective skills with specialized workflows, tool integrations, domain expertise, and bundled resources.
 
 ## Getting started
-- **Install**: Clone this repo or copy selected folders into your own project.
-- **Customize**: Edit the instruction files to match your processes, owners, and tools.
-- **Run**: Open Claude Code, connect the repository, and select the skill that aligns with your task. Claude will follow the playbook while you supervise the diffs.
+
+### 🚀 Marketplace Installation (Recommended)
+
+ClaudeKit Skills is now available as a **Claude Code Plugin Marketplace** for seamless installation and automatic updates!
+
+```bash
+# Add marketplace
+/plugin marketplace add mrgoonie/claudekit-skills
+
+# Install plugins you need
+/plugin install ai-ml-tools@claudekit-skills
+/plugin install web-dev-tools@claudekit-skills
+/plugin install devops-tools@claudekit-skills
+# ... and more!
+```
+
+**Available Plugin Categories:**
+- `ai-ml-tools` - AI and ML with Gemini API
+- `web-dev-tools` - React, Next.js, Tailwind CSS
+- `devops-tools` - Cloudflare, Docker, GCP, Databases
+- `backend-tools` - Node.js, Python, Go, Authentication
+- `document-processing` - Word, PDF, PowerPoint, Excel
+- `debugging-tools` - Systematic debugging frameworks
+- `problem-solving-tools` - Advanced thinking techniques
+- `platform-tools` - Shopify, MCP management
+- `meta-tools` - Skill creation, code review
+- `media-tools` - FFmpeg, ImageMagick
+- `research-tools` - Documentation discovery
+- `specialized-tools` - Sequential thinking, diagrams
+
+📖 **Full installation guide:** [docs/MARKETPLACE.md](docs/MARKETPLACE.md)
+
+### 📦 Manual Installation (Legacy)
+
+For users who prefer manual installation:
+
+```bash
+git clone https://github.com/mrgoonie/claudekit-skills
+cp -r claudekit-skills/.claude/* /path/to/your/project/.claude/
+```
+
+**Note:** Manual installation is deprecated. Marketplace installation is recommended for automatic updates and version management.
+
+### 🎯 Usage
+
+- **Select Skills**: After installation, Claude Code will automatically discover available skills
+- **Activate**: Skills are activated based on your task context
+- **Customize**: Edit skill instructions to match your processes and tools
+- **Execute**: Claude follows the skill's playbook while you supervise the diffs
 
 ## Star History
 

@@ -1,0 +1,12 @@
+{
+  "name": "devops-tools",
+  "description": "DevOps and infrastructure skills for Cloudflare, Docker, GCP, databases (MongoDB/PostgreSQL), and browser automation",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT"
+}

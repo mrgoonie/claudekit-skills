@@ -1,0 +1,12 @@
+{
+  "name": "media-tools",
+  "description": "Media processing with FFmpeg (video/audio) and ImageMagick (images) for encoding, conversion, and manipulation",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT"
+}

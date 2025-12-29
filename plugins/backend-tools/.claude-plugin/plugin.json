@@ -1,0 +1,12 @@
+{
+  "name": "backend-tools",
+  "description": "Backend development skills for Node.js, Python, Go, REST/GraphQL APIs, and authentication frameworks",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT"
+}

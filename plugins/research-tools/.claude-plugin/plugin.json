@@ -1,0 +1,12 @@
+{
+  "name": "research-tools",
+  "description": "Research capabilities including documentation discovery (llms.txt) and repository packaging for AI analysis",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT"
+}

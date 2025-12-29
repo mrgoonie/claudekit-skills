@@ -1,0 +1,14 @@
+{
+  "name": "platform-tools",
+  "description": "Platform integration skills for Shopify (apps/extensions/themes) and MCP server management",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT",
+  "agents": ["./agents/mcp-manager.md"],
+  "commands": ["./commands/use-mcp.md"]
+}

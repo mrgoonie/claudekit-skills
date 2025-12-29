@@ -1,0 +1,12 @@
+{
+  "name": "web-dev-tools",
+  "description": "Comprehensive web development skills covering React, TypeScript, Next.js, Tailwind CSS, and modern frontend patterns",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT"
+}

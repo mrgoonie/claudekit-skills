@@ -1,0 +1,12 @@
+{
+  "name": "document-processing",
+  "description": "Document processing skills for Word (DOCX), PDF, PowerPoint (PPTX), and Excel (XLSX) files",
+  "version": "1.0.0",
+  "author": {
+    "name": "ClaudeKit",
+    "email": "[email protected]"
+  },
+  "homepage": "https://claudekit.cc",
+  "repository": "https://github.com/mrgoonie/claudekit-skills",
+  "license": "MIT"
+}

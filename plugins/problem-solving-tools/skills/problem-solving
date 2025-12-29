@@ -1,0 +1,1 @@
+../../../.claude/skills/problem-solving
