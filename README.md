@@ -43,6 +43,7 @@ No more manual git clones! Install and update skills with simple commands. See [
 
 ### 🧠 AI & Machine Learning
 - **[ai-multimodal](.claude/skills/ai-multimodal)** - Process and generate multimedia content using Google Gemini API. Capabilities include analyze audio (transcription, summarization up to 9.5 hours), understand images (captioning, object detection, OCR, visual Q&A), process videos (scene detection, Q&A, temporal analysis, YouTube URLs up to 6 hours), extract from documents (PDF tables, forms, charts, diagrams), generate images (text-to-image, editing, composition). Supports Gemini 2.5/2.0 with context windows up to 2M tokens.
+- **[context-engineering](.claude/skills/context-engineering)** - Master context engineering for AI agent systems. Use when designing agent architectures, debugging context failures, optimizing token usage, implementing memory systems, building multi-agent coordination, or evaluating agent performance. Covers context fundamentals, degradation patterns, optimization techniques (compaction, masking, caching), compression strategies, and memory architectures.
 
 ### 🎨 Design & Aesthetics
 - **[aesthetic](.claude/skills/aesthetic)** - Create aesthetically beautiful interfaces following proven design principles. Use when building UI/UX, analyzing designs from inspiration sites, generating design images with ai-multimodal, implementing visual hierarchy and color theory, adding micro-interactions, or creating design documentation. Includes workflows for capturing and analyzing inspiration screenshots with chrome-devtools and ai-multimodal, iterative design image generation until aesthetic standards are met, and comprehensive design system guidance covering BEAUTIFUL (aesthetic principles), RIGHT (functionality/accessibility), SATISFYING (micro-interactions), and PEAK (storytelling) stages.
@@ -125,7 +126,7 @@ ClaudeKit Skills is now available as a **Claude Code Plugin Marketplace** for se
 ```
 
 **Available Plugin Categories:**
-- `ai-ml-tools` - AI and ML with Gemini API
+- `ai-ml-tools` - AI and ML with Gemini API, context engineering
 - `web-dev-tools` - React, Next.js, Tailwind CSS
 - `devops-tools` - Cloudflare, Docker, GCP, Databases
 - `backend-tools` - Node.js, Python, Go, Authentication

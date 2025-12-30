@@ -13,7 +13,7 @@
     {
       "name": "ai-ml-tools",
       "source": "./plugins/ai-ml-tools",
-      "description": "AI and ML capabilities: ai-multimodal (Gemini API with image/video/audio processing), google-adk-python (Agent Development Kit)",
+      "description": "AI and ML capabilities: ai-multimodal (Gemini API with image/video/audio processing), google-adk-python (Agent Development Kit), context-engineering (agent context optimization and memory systems)",
       "version": "1.0.0",
       "author": {
         "name": "ClaudeKit",
