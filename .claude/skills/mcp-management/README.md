@@ -48,17 +48,26 @@ See `.claude/.mcp.json.example` for more examples.
 
 ```bash
 cd .claude/skills/mcp-management/scripts
-npx ts-node cli.ts list-tools
+npm run list-tools
+# Or directly:
+npx tsx cli.ts list-tools
 ```
+
+**Note**: The CLI automatically looks for config at `~/.claude/.mcp.json`. You can run it from any directory.
 
 ## Usage Patterns
 
 ### Pattern 1: Discover Available Tools
 
 ```bash
-npx ts-node scripts/cli.ts list-tools
-npx ts-node scripts/cli.ts list-prompts
-npx ts-node scripts/cli.ts list-resources
+cd .claude/skills/mcp-management/scripts
+npm run list-tools
+npm run list-prompts
+npm run list-resources
+# Or directly:
+npx tsx cli.ts list-tools
+npx tsx cli.ts list-prompts
+npx tsx cli.ts list-resources
 ```
 
 ### Pattern 2: LLM-Driven Tool Selection
@@ -68,7 +77,7 @@ The LLM reads `assets/tools.json` and intelligently selects tools. No separate a
 ### Pattern 3: Execute MCP Tools
 
 ```bash
-npx ts-node scripts/cli.ts call-tool memory add '{"key":"name","value":"Alice"}'
+npx tsx cli.ts call-tool memory add '{"key":"name","value":"Alice"}'
 ```
 
 ### Pattern 4: Use with Subagent
@@ -204,7 +213,8 @@ Check:
 
 List available tools first:
 ```bash
-npx ts-node scripts/cli.ts list-tools
+cd .claude/skills/mcp-management/scripts
+npm run list-tools
 ```
 
 ## Resources

@@ -7,6 +7,7 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
+import { homedir } from 'os';
 
 interface MCPConfig {
   mcpServers: {
@@ -45,8 +46,10 @@ export class MCPClientManager {
   private config: MCPConfig | null = null;
   private clients: Map<string, Client> = new Map();
 
-  async loadConfig(configPath: string = '.claude/.mcp.json'): Promise<MCPConfig> {
-    const fullPath = resolve(process.cwd(), configPath);
+  async loadConfig(configPath?: string): Promise<MCPConfig> {
+    // Default to ~/.claude/.mcp.json (user's home directory)
+    const defaultPath = resolve(homedir(), '.claude', '.mcp.json');
+    const fullPath = configPath ? resolve(process.cwd(), configPath) : defaultPath;
     const content = await readFile(fullPath, 'utf-8');
     const config = JSON.parse(content) as MCPConfig;
     this.config = config;
@@ -139,7 +142,7 @@ export class MCPClientManager {
   async callTool(serverName: string, toolName: string, args: any): Promise<any> {
     const client = this.clients.get(serverName);
     if (!client) throw new Error(`Not connected to server: ${serverName}`);
-    return await client.callTool({ name: toolName, arguments: args }, { timeout: 300000 });
+    return await client.callTool({ name: toolName, arguments: args }, { timeout: 300000 } as any);
   }
 
   async getPrompt(serverName: string, promptName: string, args?: any): Promise<any> {
