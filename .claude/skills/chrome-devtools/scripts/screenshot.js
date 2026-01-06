@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Take a screenshot
- * Usage: node screenshot.js --output screenshot.png [--url https://example.com] [--full-page true] [--selector .element] [--max-size 5] [--no-compress]
+ * Usage: node screenshot.js --output screenshot.png [--url https://example.com] [--full-page true] [--selector .element] [--delay 3000] [--wait-selector ".loaded-content"] [--max-size 5] [--no-compress]
  * Supports both CSS and XPath selectors:
  *   - CSS: node screenshot.js --selector ".main-content" --output page.png
  *   - XPath: node screenshot.js --selector "//div[@class='main-content']" --output page.png
@@ -113,6 +113,20 @@ async function screenshot() {
       await page.goto(args.url, {
         waitUntil: args['wait-until'] || 'networkidle2'
       });
+    }
+
+    // Wait for specific selector if provided (ensure page is ready)
+    if (args['wait-selector']) {
+      try {
+        await page.waitForSelector(args['wait-selector'], { timeout: 30000 });
+      } catch (e) {
+        console.warn(`Warning: Timeout waiting for selector "${args['wait-selector']}"`);
+      }
+    }
+
+    // Explicit delay (useful for transitions, animations or lazy loading)
+    if (args.delay) {
+      await new Promise(resolve => setTimeout(resolve, parseInt(args.delay)));
     }
 
     const screenshotOptions = {
