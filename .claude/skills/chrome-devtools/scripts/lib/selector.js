@@ -3,11 +3,27 @@
  * Supports CSS and XPath selectors with security validation
  */
 
+// Allowlist of safe XPath axes (standard DOM traversal)
+const ALLOWED_XPATH_AXES = [
+  'ancestor', 'ancestor-or-self', 'attribute', 'child', 'descendant',
+  'descendant-or-self', 'following', 'following-sibling', 'namespace',
+  'parent', 'preceding', 'preceding-sibling', 'self'
+];
+
+// Allowlist of safe XPath functions (node selection and string ops)
+const ALLOWED_XPATH_FUNCTIONS = [
+  'text', 'contains', 'starts-with', 'normalize-space', 'string-length',
+  'concat', 'substring', 'substring-before', 'substring-after', 'translate',
+  'not', 'true', 'false', 'boolean', 'string', 'number', 'sum', 'floor',
+  'ceiling', 'round', 'count', 'name', 'local-name', 'namespace-uri',
+  'last', 'position', 'id', 'lang', 'comment', 'processing-instruction', 'node'
+];
+
 /**
  * Parse and validate selector
  * @param {string} selector - CSS or XPath selector
  * @returns {{type: 'css'|'xpath', selector: string}}
- * @throws {Error} If XPath contains injection patterns
+ * @throws {Error} If selector fails validation
  */
 export function parseSelector(selector) {
   if (!selector || typeof selector !== 'string') {
@@ -16,43 +32,106 @@ export function parseSelector(selector) {
 
   // Detect XPath selectors
   if (selector.startsWith('/') || selector.startsWith('(//')) {
-    // XPath injection prevention
     validateXPath(selector);
     return { type: 'xpath', selector };
   }
 
   // CSS selector
+  validateCSS(selector);
   return { type: 'css', selector };
 }
 
 /**
- * Validate XPath selector for security
+ * Validate XPath selector using allowlist approach
  * @param {string} xpath - XPath expression to validate
- * @throws {Error} If XPath contains dangerous patterns
+ * @throws {Error} If XPath fails validation
  */
 function validateXPath(xpath) {
-  const dangerous = [
-    'javascript:',
-    '<script',
-    'onerror=',
-    'onload=',
-    'onclick=',
-    'onmouseover=',
-    'eval(',
-    'Function(',
-    'constructor(',
-  ];
+  // Length limit to prevent DoS
+  if (xpath.length > 1000) {
+    throw new Error('XPath selector too long (max 1000 characters)');
+  }
 
-  const lower = xpath.toLowerCase();
-  for (const pattern of dangerous) {
-    if (lower.includes(pattern.toLowerCase())) {
-      throw new Error(`Potential XPath injection detected: ${pattern}`);
+  // Complexity limits
+  const predicateCount = (xpath.match(/\[/g) || []).length;
+  if (predicateCount > 10) {
+    throw new Error('XPath too complex: max 10 predicates allowed');
+  }
+
+  const nestingDepth = Math.max(...xpath.split('').reduce((depths, char, i) => {
+    if (char === '[') depths.push((depths[depths.length - 1] || 0) + 1);
+    else if (char === ']') depths.push(Math.max(0, (depths[depths.length - 1] || 0) - 1));
+    else if (depths.length) depths.push(depths[depths.length - 1]);
+    else depths.push(0);
+    return depths;
+  }, []));
+  if (nestingDepth > 5) {
+    throw new Error('XPath too deeply nested: max 5 levels allowed');
+  }
+
+  // Extract and validate function calls using allowlist
+  const functionPattern = /([a-z][a-z0-9-]*)\s*\(/gi;
+  let match;
+  while ((match = functionPattern.exec(xpath)) !== null) {
+    const funcName = match[1].toLowerCase();
+    if (!ALLOWED_XPATH_FUNCTIONS.includes(funcName)) {
+      throw new Error(`XPath function not allowed: ${funcName}. Allowed: ${ALLOWED_XPATH_FUNCTIONS.join(', ')}`);
     }
   }
 
-  // Additional validation: check for extremely long selectors (potential DoS)
-  if (xpath.length > 1000) {
-    throw new Error('XPath selector too long (max 1000 characters)');
+  // Validate axes using allowlist
+  const axisPattern = /([a-z][a-z-]*)::/gi;
+  while ((match = axisPattern.exec(xpath)) !== null) {
+    const axisName = match[1].toLowerCase();
+    if (!ALLOWED_XPATH_AXES.includes(axisName)) {
+      throw new Error(`XPath axis not allowed: ${axisName}. Allowed: ${ALLOWED_XPATH_AXES.join(', ')}`);
+    }
+  }
+
+  // Block obvious non-XPath content (URLs, scripts, HTML)
+  if (/^https?:\/\//i.test(xpath)) {
+    throw new Error('XPath cannot be a URL');
+  }
+  if (/<[a-z]/i.test(xpath)) {
+    throw new Error('XPath cannot contain HTML tags');
+  }
+}
+
+/**
+ * Validate CSS selector for security
+ * @param {string} css - CSS selector to validate
+ * @throws {Error} If CSS selector fails validation
+ */
+function validateCSS(css) {
+  // Length limit to prevent DoS
+  if (css.length > 500) {
+    throw new Error('CSS selector too long (max 500 characters)');
+  }
+
+  // Complexity limits
+  const selectorParts = css.split(/\s*,\s*/);
+  if (selectorParts.length > 10) {
+    throw new Error('CSS selector too complex: max 10 comma-separated selectors');
+  }
+
+  // Check nesting depth (combinators indicate depth)
+  const maxDepth = Math.max(...selectorParts.map(part =>
+    (part.match(/[\s>+~]/g) || []).length
+  ));
+  if (maxDepth > 10) {
+    throw new Error('CSS selector too deeply nested: max 10 levels');
+  }
+
+  // Block non-CSS content
+  if (/^https?:\/\//i.test(css)) {
+    throw new Error('CSS selector cannot be a URL');
+  }
+  if (/<[a-z]/i.test(css)) {
+    throw new Error('CSS selector cannot contain HTML tags');
+  }
+  // Block url() which could be used for data exfiltration in some contexts
+  if (/url\s*\(/i.test(css)) {
+    throw new Error('CSS selector cannot contain url()');
   }
 }
 
