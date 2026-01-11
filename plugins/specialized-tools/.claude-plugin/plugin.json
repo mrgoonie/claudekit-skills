@@ -2,6 +2,7 @@
   "name": "specialized-tools",
   "description": "Specialized skills for sequential reasoning and Mermaid diagram generation",
   "version": "1.0.0",
+  "skills": ["./skills/mermaidjs-v11", "./skills/sequential-thinking"],
   "author": {
     "name": "ClaudeKit",
     "email": "[email protected]"

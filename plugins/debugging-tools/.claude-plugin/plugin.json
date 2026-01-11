@@ -2,6 +2,7 @@
   "name": "debugging-tools",
   "description": "Systematic debugging frameworks ensuring root cause investigation and verification before completion",
   "version": "1.0.0",
+  "skills": ["./skills/debugging"],
   "author": {
     "name": "ClaudeKit",
     "email": "[email protected]"

@@ -2,6 +2,7 @@
   "name": "document-processing",
   "description": "Document processing skills for Word (DOCX), PDF, PowerPoint (PPTX), and Excel (XLSX) files",
   "version": "1.0.0",
+  "skills": ["./skills/document-skills"],
   "author": {
     "name": "ClaudeKit",
     "email": "[email protected]"
