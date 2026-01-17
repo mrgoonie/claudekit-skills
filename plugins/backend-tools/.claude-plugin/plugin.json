@@ -2,6 +2,7 @@
   "name": "backend-tools",
   "description": "Backend development skills for Node.js, Python, Go, REST/GraphQL APIs, and authentication frameworks",
   "version": "1.0.0",
+  "skills": ["./skills/backend-development", "./skills/better-auth"],
   "author": {
     "name": "ClaudeKit",
     "email": "[email protected]"

@@ -2,6 +2,7 @@
   "name": "media-tools",
   "description": "Media processing with FFmpeg (video/audio) and ImageMagick (images) for encoding, conversion, and manipulation",
   "version": "1.0.0",
+  "skills": ["./skills/media-processing"],
   "author": {
     "name": "ClaudeKit",
     "email": "[email protected]"

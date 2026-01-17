@@ -2,6 +2,7 @@
   "name": "platform-tools",
   "description": "Platform integration skills for Shopify (apps/extensions/themes) and MCP server management",
   "version": "1.0.0",
+  "skills": ["./skills/mcp-builder", "./skills/mcp-management", "./skills/shopify"],
   "author": {
     "name": "ClaudeKit",
     "email": "[email protected]"
