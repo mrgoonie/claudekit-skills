@@ -10,7 +10,7 @@ import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError }
 import { parseSelector, getElement, enhanceError } from './lib/selector.js';
 import fs from 'fs/promises';
 import path from 'path';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 
 /**
  * Compress image using ImageMagick if it exceeds max size
@@ -28,12 +28,14 @@ async function compressImageIfNeeded(filePath, maxSizeMB = 5) {
   }
 
   try {
-    // Check if ImageMagick is available
+    // Check if ImageMagick is available and determine the command name
+    let magickCmd = 'magick';
     try {
-      execSync('magick -version', { stdio: 'pipe' });
+      execFileSync('magick', ['-version'], { stdio: 'pipe' });
     } catch {
       try {
-        execSync('convert -version', { stdio: 'pipe' });
+        execFileSync('convert', ['-version'], { stdio: 'pipe' });
+        magickCmd = 'convert';
       } catch {
         console.error('Warning: ImageMagick not found. Install it to enable automatic compression.');
         return { compressed: false, originalSize, finalSize: originalSize };
@@ -44,20 +46,21 @@ async function compressImageIfNeeded(filePath, maxSizeMB = 5) {
     const tempPath = filePath.replace(ext, `.temp${ext}`);
 
     // Determine compression strategy based on file type
-    let compressionCmd;
+    // Using execFileSync with array args prevents command injection
+    let compressionArgs;
     if (ext === '.png') {
       // For PNG: resize and compress with quality
-      compressionCmd = `magick "${filePath}" -strip -resize 90% -quality 85 "${tempPath}"`;
+      compressionArgs = [filePath, '-strip', '-resize', '90%', '-quality', '85', tempPath];
     } else if (ext === '.jpg' || ext === '.jpeg') {
       // For JPEG: compress with quality and progressive
-      compressionCmd = `magick "${filePath}" -strip -quality 80 -interlace Plane "${tempPath}"`;
+      compressionArgs = [filePath, '-strip', '-quality', '80', '-interlace', 'Plane', tempPath];
     } else {
       // For other formats: convert to JPEG with compression
-      compressionCmd = `magick "${filePath}" -strip -quality 80 "${tempPath.replace(ext, '.jpg')}"`;
+      compressionArgs = [filePath, '-strip', '-quality', '80', tempPath.replace(ext, '.jpg')];
     }
 
-    // Try compression
-    execSync(compressionCmd, { stdio: 'pipe' });
+    // Try compression - execFileSync doesn't invoke shell, preventing injection
+    execFileSync(magickCmd, compressionArgs, { stdio: 'pipe' });
 
     const compressedStats = await fs.stat(tempPath);
     const compressedSize = compressedStats.size;
@@ -65,15 +68,15 @@ async function compressImageIfNeeded(filePath, maxSizeMB = 5) {
     // If still too large, try more aggressive compression
     if (compressedSize > maxSizeBytes) {
       const finalPath = filePath.replace(ext, `.final${ext}`);
-      let aggressiveCmd;
+      let aggressiveArgs;
 
       if (ext === '.png') {
-        aggressiveCmd = `magick "${tempPath}" -strip -resize 75% -quality 70 "${finalPath}"`;
+        aggressiveArgs = [tempPath, '-strip', '-resize', '75%', '-quality', '70', finalPath];
       } else {
-        aggressiveCmd = `magick "${tempPath}" -strip -quality 60 -sampling-factor 4:2:0 "${finalPath}"`;
+        aggressiveArgs = [tempPath, '-strip', '-quality', '60', '-sampling-factor', '4:2:0', finalPath];
       }
 
-      execSync(aggressiveCmd, { stdio: 'pipe' });
+      execFileSync(magickCmd, aggressiveArgs, { stdio: 'pipe' });
       await fs.unlink(tempPath);
       await fs.rename(finalPath, filePath);
     } else {
