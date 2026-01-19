@@ -56,6 +56,7 @@ No more manual git clones! Install and update skills with simple commands. See [
 
 ### 🌐 Browser Automation & Testing
 - **[chrome-devtools](.claude/skills/chrome-devtools)** - Browser automation, debugging, and performance analysis using Puppeteer CLI scripts. Automate browsers, take screenshots, analyze performance, monitor network traffic, web scraping, and form automation.
+- **[web-testing](.claude/skills/web-testing)** - Comprehensive web testing with Playwright, Vitest, k6. E2E/unit/integration/load/security/visual/accessibility testing. Use for test automation, flakiness mitigation, Core Web Vitals, mobile gestures, cross-browser testing.
 
 ### ☁️ Cloud Platforms & DevOps
 - **[devops](.claude/skills/devops)** - Deploy and manage cloud infrastructure on Cloudflare (Workers, R2, D1, KV, Pages, Durable Objects, Browser Rendering), Docker containers, and Google Cloud Platform (Compute Engine, GKE, Cloud Run, App Engine, Cloud Storage). Deploy serverless functions to the edge, configure edge computing solutions, manage containers, set up CI/CD pipelines, optimize cloud infrastructure costs.

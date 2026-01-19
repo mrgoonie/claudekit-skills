@@ -87,10 +87,13 @@ Install specific plugin categories based on your needs:
 - `ui-styling` - shadcn/ui components with Tailwind CSS
 - `web-frameworks` - Next.js App Router, Turborepo monorepos
 - `aesthetic` - Design principles and visual hierarchy
+- `web-testing` - Playwright, Vitest, k6 for E2E/unit/integration/load/security/a11y testing
 
 **Dependencies:**
 - Node.js 18+
 - npm/pnpm/yarn
+- Playwright (for E2E)
+- k6 (for load testing)
 
 ---
 
