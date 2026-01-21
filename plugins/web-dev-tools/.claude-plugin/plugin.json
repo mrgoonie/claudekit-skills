@@ -1,8 +1,8 @@
 {
   "name": "web-dev-tools",
-  "description": "Comprehensive web development skills covering React, TypeScript, Next.js, Tailwind CSS, modern frontend patterns, and testing",
-  "version": "1.1.0",
-  "skills": ["./skills/aesthetic", "./skills/frontend-design", "./skills/frontend-development", "./skills/ui-styling", "./skills/web-frameworks", "./skills/web-testing"],
+  "description": "Comprehensive web development skills covering React, TypeScript, Next.js, Tailwind CSS, Three.js 3D graphics, modern frontend patterns, and testing",
+  "version": "1.2.0",
+  "skills": ["./skills/aesthetic", "./skills/frontend-design", "./skills/frontend-development", "./skills/threejs", "./skills/ui-styling", "./skills/web-frameworks", "./skills/web-testing"],
   "author": {
     "name": "ClaudeKit",
     "email": "[email protected]"
