@@ -1,8 +1,8 @@
 {
   "name": "platform-tools",
-  "description": "Platform integration skills for Shopify (apps/extensions/themes) and MCP server management",
-  "version": "1.0.0",
-  "skills": ["./skills/mcp-builder", "./skills/mcp-management", "./skills/shopify"],
+  "description": "Platform integration skills for Shopify, payment providers (SePay, Polar, Stripe, Paddle, Creem), and MCP server management",
+  "version": "1.1.0",
+  "skills": ["./skills/mcp-builder", "./skills/mcp-management", "./skills/shopify", "./skills/payment-integration"],
   "author": {
     "name": "ClaudeKit",
     "email": "[email protected]"

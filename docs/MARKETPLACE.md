@@ -167,10 +167,11 @@ Install specific plugin categories based on your needs:
 ---
 
 ### 🛍️ platform-tools
-**Platform integrations**
+**Platform and payment integrations**
 
 **Includes:**
 - `shopify` - Build apps, extensions, and themes
+- `payment-integration` - SePay (Vietnamese VietQR), Polar (SaaS MoR), Stripe, Paddle, Creem.io
 - `mcp-management` - Manage MCP servers
 - `mcp-builder` - Build MCP servers in Python/TypeScript
 
@@ -183,6 +184,7 @@ Install specific plugin categories based on your needs:
 **Dependencies:**
 - Node.js 18+
 - Shopify CLI (optional)
+- Environment: `SEPAY_*`, `POLAR_*`, `STRIPE_*` (for payment integrations)
 
 ---
 

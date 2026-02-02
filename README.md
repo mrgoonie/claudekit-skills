@@ -93,6 +93,9 @@ No more manual git clones! Install and update skills with simple commands. See [
 ### 🛍️ E-commerce & Platforms
 - **[shopify](.claude/skills/shopify)** - Build Shopify apps, extensions, and themes using GraphQL/REST APIs, Shopify CLI, Polaris UI. Includes checkout extensions, admin customization, Liquid templating, and Shopify Functions.
 
+### 💳 Payments & Billing
+- **[payment-integration](.claude/skills/payment-integration)** - Comprehensive payment integration for SePay (Vietnamese VietQR/bank transfers), Polar (SaaS monetization with MoR), Stripe (global payments), Paddle (MoR subscriptions), and Creem.io (software licensing). Includes webhook verification, checkout helpers, subscription management, and usage-based billing.
+
 ### 🧠 Problem-Solving Frameworks
 - **[problem-solving/collision-zone-thinking](.claude/skills/problem-solving/collision-zone-thinking)** - Force unrelated concepts together to discover emergent properties. "What if we treated X like Y?"
 - **[problem-solving/inversion-exercise](.claude/skills/problem-solving/inversion-exercise)** - Flip core assumptions to reveal hidden constraints and alternative approaches. "What if the opposite were true?"
@@ -135,7 +138,7 @@ ClaudeKit Skills is now available as a **Claude Code Plugin Marketplace** for se
 - `document-processing` - Word, PDF, PowerPoint, Excel
 - `debugging-tools` - Systematic debugging frameworks
 - `problem-solving-tools` - Advanced thinking techniques
-- `platform-tools` - Shopify, MCP management
+- `platform-tools` - Shopify, payments (SePay, Polar, Stripe, Paddle, Creem), MCP management
 - `meta-tools` - Skill creation, code review
 - `media-tools` - FFmpeg, ImageMagick
 - `research-tools` - Documentation discovery
