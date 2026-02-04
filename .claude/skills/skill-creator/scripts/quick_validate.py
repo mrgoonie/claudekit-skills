@@ -4,9 +4,13 @@ Quick validation script for skills - minimal version
 """
 
 import sys
-import os
 import re
 from pathlib import Path
+
+from encoding_utils import configure_utf8_console, read_text_utf8
+
+# Fix Windows console encoding for Unicode output
+configure_utf8_console()
 
 def validate_skill(skill_path):
     """Basic validation of a skill"""
@@ -18,7 +22,7 @@ def validate_skill(skill_path):
         return False, "SKILL.md not found"
     
     # Read and validate frontmatter
-    content = skill_md.read_text()
+    content = read_text_utf8(skill_md)
     if not content.startswith('---'):
         return False, "No YAML frontmatter found"
     

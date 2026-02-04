@@ -13,7 +13,12 @@ Example:
 import sys
 import zipfile
 from pathlib import Path
+
+from encoding_utils import configure_utf8_console
 from quick_validate import validate_skill
+
+# Fix Windows console encoding for Unicode output (emojis, arrows)
+configure_utf8_console()
 
 
 def package_skill(skill_path, output_dir=None):
