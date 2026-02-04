@@ -39,16 +39,19 @@ npm install  # Installs puppeteer, debug, yargs
 ImageMagick enables automatic screenshot compression to keep files under 5MB:
 
 **macOS:**
+
 ```bash
 brew install imagemagick
 ```
 
 **Ubuntu/Debian/WSL:**
+
 ```bash
 sudo apt-get install imagemagick
 ```
 
 **Verify:**
+
 ```bash
 magick -version  # or: convert -version
 ```
@@ -56,6 +59,7 @@ magick -version  # or: convert -version
 Without ImageMagick, screenshots >5MB will not be compressed (may fail to load in Gemini/Claude).
 
 ### Test
+
 ```bash
 node navigate.js --url https://example.com
 # Output: {"success": true, "url": "https://example.com", "title": "Example Domain"}
@@ -68,65 +72,90 @@ All scripts are in `.claude/skills/chrome-devtools/scripts/`
 **CRITICAL**: Always check `pwd` before running scripts.
 
 ### Script Usage
+
 - `./scripts/README.md`
 
 ### Core Automation
+
 - `navigate.js` - Navigate to URLs
-- `screenshot.js` - Capture screenshots (full page or element)
 - `click.js` - Click elements
 - `fill.js` - Fill form fields
 - `evaluate.js` - Execute JavaScript in page context
 
-### Analysis & Monitoring
+### Web Scraping & Downloads
+
+- `download-dribbble.js` - Download design images from Dribbble search results
 - `snapshot.js` - Extract interactive elements with metadata
+
+### Analysis & Monitoring
+
 - `console.js` - Monitor console messages/errors
 - `network.js` - Track HTTP requests/responses
 - `performance.js` - Measure Core Web Vitals + record traces
+- `screenshot.js` - Capture screenshots (full page or element)
 
 ## Usage Patterns
 
-### Single Command
+### Download Design Images from Dribbble
+
 ```bash
 pwd  # Should show current working directory
 cd .claude/skills/chrome-devtools/scripts
-node screenshot.js --url https://example.com --output ./docs/screenshots/page.png
+node download-dribbble.js --query "financial dashboard dark ui" --output ./docs/screenshots --count 12
 ```
-**Important**: Always save screenshots to `./docs/screenshots` directory.
+
+**Features:**
+
+- Automatically visits each shot's page to extract full-resolution images
+- Supports queries for any design type (UI, logo, icon, illustration, etc.)
+- Auto-compresses images for optimal file size
+- Downloads metadata including source URLs
+- Retry logic for reliable downloads
+
+**Important**: Always save downloads to `./docs/screenshots` directory.
 
 ### Automatic Image Compression
-Screenshots are **automatically compressed** if they exceed 5MB to ensure compatibility with Gemini API and Claude Code (which have 5MB limits). This uses ImageMagick internally:
+
+Downloaded images are **automatically compressed** if they exceed 10MB (default) to optimize file size. This uses ImageMagick internally:
 
 ```bash
-# Default: auto-compress if >5MB
-node screenshot.js --url https://example.com --output page.png
+# Default: auto-compress if >10MB
+node download-dribbble.js --query "financial dashboard" --output ./docs/screenshots
 
-# Custom size threshold (e.g., 3MB)
-node screenshot.js --url https://example.com --output page.png --max-size 3
+# Custom size threshold (e.g., 5MB)
+node download-dribbble.js --query "financial dashboard" --output ./docs/screenshots --max-size 5
 
 # Disable compression
-node screenshot.js --url https://example.com --output page.png --no-compress
+node download-dribbble.js --query "financial dashboard" --output ./docs/screenshots --no-compress
 ```
 
 **Compression behavior:**
-- PNG: Resizes to 90% + quality 85 (or 75% + quality 70 if still too large)
-- JPEG: Quality 80 + progressive encoding (or quality 60 if still too large)
-- Other formats: Converted to JPEG with compression
-- Requires ImageMagick installed (see imagemagick skill)
+
+- JPEG: Quality 75 with progressive encoding (or quality 60 if still too large)
+- Requires ImageMagick installed for automatic compression
 
 **Output includes compression info:**
+
 ```json
 {
   "success": true,
-  "output": "/path/to/page.png",
-  "compressed": true,
-  "originalSize": 8388608,
-  "size": 3145728,
-  "compressionRatio": "62.50%",
-  "url": "https://example.com"
+  "downloads": [
+    {
+      "success": true,
+      "filename": "001-design-title.jpg",
+      "path": "/path/to/docs/screenshots/001-design-title.jpg",
+      "originalSize": 2097152,
+      "size": 512000,
+      "compressed": true,
+      "compressionRatio": "75.61%",
+      "url": "https://cdn.dribbble.com/..."
+    }
+  ]
 }
 ```
 
 ### Chain Commands (reuse browser)
+
 ```bash
 # Keep browser open with --close false
 node navigate.js --url https://example.com/login --close false
@@ -136,6 +165,7 @@ node click.js --selector "button[type=submit]"
 ```
 
 ### Parse JSON Output
+
 ```bash
 # Extract specific fields with jq
 node performance.js --url https://example.com | jq '.vitals.LCP'
@@ -149,12 +179,14 @@ node network.js --url https://example.com --output /tmp/requests.json
 ### Working Directory Verification
 
 BEFORE executing any script:
+
 1. Check current working directory with `pwd`
 2. Verify in `.claude/skills/chrome-devtools/scripts/` directory
 3. If wrong directory, `cd` to correct location
 4. Use absolute paths for all output files
 
 Example:
+
 ```bash
 pwd  # Should show: .../chrome-devtools/scripts
 # If wrong:
@@ -164,29 +196,33 @@ cd .claude/skills/chrome-devtools/scripts
 ### Output Validation
 
 AFTER screenshot/capture operations:
+
 1. Verify file created with `ls -lh <output-path>`
 2. Read screenshot using Read tool to confirm content
 3. Check JSON output for success:true
 4. Report file size and compression status
 
 Example:
+
 ```bash
 node screenshot.js --url https://example.com --output ./docs/screenshots/page.png
 ls -lh ./docs/screenshots/page.png  # Verify file exists
 # Then use Read tool to visually inspect
 ```
 
-5. Restart working directory to the project root.
+1. Restart working directory to the project root.
 
 ### Error Recovery
 
 If script fails:
+
 1. Check error message for selector issues
 2. Use snapshot.js to discover correct selectors
 3. Try XPath selector if CSS selector fails
 4. Verify element is visible and interactive
 
 Example:
+
 ```bash
 # CSS selector fails
 node click.js --url https://example.com --selector ".btn-submit"
@@ -213,7 +249,21 @@ node click.js --url https://example.com --selector "//button[contains(text(),'Su
 
 ## Common Workflows
 
+### Download Design Inspiration from Dribbble
+
+```bash
+# Download UI/UX designs
+node download-dribbble.js --query "dashboard ui" --output ./docs/screenshots --count 20
+
+# Download with custom compression
+node download-dribbble.js --query "mobile app design" --output ./docs/screenshots --max-size 5
+
+# Slow download for rate limiting
+node download-dribbble.js --query "landing page" --output ./docs/screenshots --delay 2000
+```
+
 ### Web Scraping
+
 ```bash
 node evaluate.js --url https://example.com --script "
   Array.from(document.querySelectorAll('.item')).map(el => ({
@@ -224,6 +274,7 @@ node evaluate.js --url https://example.com --script "
 ```
 
 ### Performance Testing
+
 ```bash
 PERF=$(node performance.js --url https://example.com)
 LCP=$(echo $PERF | jq '.vitals.LCP')
@@ -235,12 +286,14 @@ fi
 ```
 
 ### Form Automation
+
 ```bash
 node fill.js --url https://example.com --selector "#search" --value "query" --close false
 node click.js --selector "button[type=submit]"
 ```
 
 ### Error Monitoring
+
 ```bash
 node console.js --url https://example.com --types error,warn --duration 5000 | jq '.messageCount'
 ```
@@ -248,6 +301,7 @@ node console.js --url https://example.com --types error,warn --duration 5000 | j
 ## Script Options
 
 All scripts support:
+
 - `--headless false` - Show browser window
 - `--close false` - Keep browser open for chaining
 - `--timeout 30000` - Set timeout (milliseconds)
@@ -258,6 +312,7 @@ See `./scripts/README.md` for complete options.
 ## Output Format
 
 All scripts output JSON to stdout:
+
 ```json
 {
   "success": true,
@@ -267,6 +322,7 @@ All scripts output JSON to stdout:
 ```
 
 Errors go to stderr:
+
 ```json
 {
   "success": false,
@@ -277,6 +333,7 @@ Errors go to stderr:
 ## Finding Elements
 
 Use `snapshot.js` to discover selectors:
+
 ```bash
 node snapshot.js --url https://example.com | jq '.elements[] | {tagName, text, selector}'
 ```
@@ -286,52 +343,62 @@ node snapshot.js --url https://example.com | jq '.elements[] | {tagName, text, s
 ### Common Errors
 
 **"Cannot find package 'puppeteer'"**
+
 - Run: `npm install` in the scripts directory
 
 **"error while loading shared libraries: libnss3.so"** (Linux/WSL)
+
 - Missing system dependencies
 - Fix: Run `./install-deps.sh` in scripts directory
 - Manual install: `sudo apt-get install -y libnss3 libnspr4 libasound2t64 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1`
 
 **"Failed to launch the browser process"**
+
 - Check system dependencies installed (Linux/WSL)
 - Verify Chrome downloaded: `ls ~/.cache/puppeteer`
 - Try: `npm rebuild` then `npm install`
 
 **Chrome not found**
+
 - Puppeteer auto-downloads Chrome during `npm install`
 - If failed, manually trigger: `npx puppeteer browsers install chrome`
 
 ### Script Issues
 
 **Element not found**
+
 - Get snapshot first to find correct selector: `node snapshot.js --url <url>`
 
 **Script hangs**
+
 - Increase timeout: `--timeout 60000`
 - Change wait strategy: `--wait-until load` or `--wait-until domcontentloaded`
 
 **Blank screenshot**
+
 - Wait for page load: `--wait-until networkidle2`
 - Increase timeout: `--timeout 30000`
 
 **Permission denied on scripts**
+
 - Make executable: `chmod +x *.sh`
 
-**Screenshot too large (>5MB)**
-- Install ImageMagick for automatic compression
-- Manually set lower threshold: `--max-size 3`
-- Use JPEG format instead of PNG: `--format jpeg --quality 80`
-- Capture specific element instead of full page: `--selector .main-content`
+### Download failures
+
+- Images may fail if shot page structure changes: Check error message for details
+- Some designs may have restricted downloads: Script will skip them automatically
+- Network timeouts: Increase delay between downloads with `--delay 2000`
 
 **Compression not working**
+
 - Verify ImageMagick installed: `magick -version` or `convert -version`
-- Check file was actually compressed in output JSON: `"compressed": true`
-- For very large pages, use `--selector` to capture only needed area
+- Check files were actually compressed in output JSON: `"compressed": true`
+- Images may stay uncompressed if already below threshold size
 
 ## Reference Documentation
 
 Detailed guides available in `./references/`:
+
 - [CDP Domains Reference](./references/cdp-domains.md) - 47 Chrome DevTools Protocol domains
 - [Puppeteer Quick Reference](./references/puppeteer-reference.md) - Complete Puppeteer API patterns
 - [Performance Analysis Guide](./references/performance-guide.md) - Core Web Vitals optimization
@@ -339,13 +406,16 @@ Detailed guides available in `./references/`:
 ## Advanced Usage
 
 ### Custom Scripts
+
 Create custom scripts using shared library:
+
 ```javascript
 import { getBrowser, getPage, closeBrowser, outputJSON } from './lib/browser.js';
 // Your automation logic
 ```
 
 ### Direct CDP Access
+
 ```javascript
 const client = await page.createCDPSession();
 await client.send('Emulation.setCPUThrottlingRate', { rate: 4 });
