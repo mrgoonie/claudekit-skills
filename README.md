@@ -2,11 +2,16 @@
 
 [**Agent Skills**](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) are specialized workflows that empower Claude to perform complex, multi-step tasks with precision and reliability. They combine mission briefs, guardrails, and integration hints to transform generic AI assistance into disciplined automation.
 
-> Skills leverage Claude's VM environment to provide capabilities beyond what's possible with prompts alone. Claude operates in a virtual machine with filesystem access, allowing Skills to exist as directories containing instructions, executable code, and reference materials, organized like an onboarding guide you'd create for a new team member.
-> 
-> This filesystem-based architecture enables **progressive disclosure**: Claude loads information in stages as needed, rather than consuming context upfront.
-
 Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview
+
+## My other projects
+
+- [My Blog](https://zuey.me)
+- [ClaudeKit](https://claudekit.cc)
+- [UI UX Pro Max Skill](https://uupm.cc)
+- [GoClaw - OpenClaw for Enterprise](https://goclaw.sh)
+- [AgentWiki - Knowledge Base for both humans & AI agents](https://agentwiki.cc)
+- [TOSE - The Outstanding Shipping Solution](https://tose.sh)
 
 ## 🎉 NEW [Dec 2025]: Claude Code Marketplace!
 
