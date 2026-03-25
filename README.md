@@ -5,6 +5,7 @@
 Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview
 
 ## My other projects
+- [Claude Code SDK](https://github.com/SeifBenayed/claude-code-sdk) - Open-source, provider-agnostic SDK (Node.js, Python, Go, Rust) for running agent skills on any LLM
 
 - [My Blog](https://zuey.me)
 - [ClaudeKit](https://claudekit.cc)
