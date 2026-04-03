@@ -65,6 +65,7 @@ No more manual git clones! Install and update skills with simple commands. See [
 - **[web-testing](.claude/skills/web-testing)** - Comprehensive web testing with Playwright, Vitest, k6. E2E/unit/integration/load/security/visual/accessibility testing. Use for test automation, flakiness mitigation, Core Web Vitals, mobile gestures, cross-browser testing.
 
 ### ☁️ Cloud Platforms & DevOps
+- **[bunny](.claude/skills/bunny)** - Integrate with Bunny.net's cloud platform: CDN (Pull Zones, Edge Rules, Cache), Edge Storage (HTTP/FTP, SDKs), Stream (video upload/encode/DRM), DNS (Zones, DNSSEC, Scriptable DNS), Edge Scripting (JS/TS at the edge), Shield (WAF, DDoS, Rate Limiting), Magic Containers (deploy/autoscale), Optimizer (dynamic images), Database (distributed SQLite), and AI Image Generation. Includes Terraform provider and token authentication.
 - **[devops](.claude/skills/devops)** - Deploy and manage cloud infrastructure on Cloudflare (Workers, R2, D1, KV, Pages, Durable Objects, Browser Rendering), Docker containers, and Google Cloud Platform (Compute Engine, GKE, Cloud Run, App Engine, Cloud Storage). Deploy serverless functions to the edge, configure edge computing solutions, manage containers, set up CI/CD pipelines, optimize cloud infrastructure costs.
 
 ### 🗄️ Databases
@@ -143,7 +144,7 @@ ClaudeKit Skills is now available as a **Claude Code Plugin Marketplace** for se
 - `document-processing` - Word, PDF, PowerPoint, Excel
 - `debugging-tools` - Systematic debugging frameworks
 - `problem-solving-tools` - Advanced thinking techniques
-- `platform-tools` - Shopify, payments (SePay, Polar, Stripe, Paddle, Creem), MCP management
+- `platform-tools` - Bunny.net, Shopify, payments (SePay, Polar, Stripe, Paddle, Creem), MCP management
 - `meta-tools` - Skill creation, code review
 - `media-tools` - FFmpeg, ImageMagick
 - `research-tools` - Documentation discovery
