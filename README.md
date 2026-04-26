@@ -9,6 +9,7 @@ Learn more about Agent Skills: https://docs.claude.com/en/docs/agents-and-tools/
 - [My Blog](https://zuey.me)
 - [ClaudeKit](https://claudekit.cc)
 - [UI UX Pro Max Skill](https://uupm.cc)
+- [Skills宝](https://skilery.com) - Chinese discovery and installation site for agent skills
 - [GoClaw - OpenClaw for Enterprise](https://goclaw.sh)
 - [AgentWiki - Knowledge Base for both humans & AI agents](https://agentwiki.cc)
 - [TOSE - The Outstanding Shipping Solution](https://tose.sh)
